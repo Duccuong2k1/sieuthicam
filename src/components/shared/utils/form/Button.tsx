@@ -41,7 +41,7 @@ export function Button({
   useEffect(() => {
     setLoading(props.isLoading as boolean);
   }, [props.isLoading]);
-  let buttonStyle = `flex items-center rounded px-2 border text-white `;
+  let buttonStyle = `flex items-center rounded px-2 border text-black `;
 
   const onClick = (
     event: MouseEvent<HTMLAnchorElement> | MouseEvent<HTMLButtonElement>

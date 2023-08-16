@@ -5,7 +5,7 @@ import { Fragment, useState } from "react";
 import { forceCheck } from "react-lazyload";
 import { Button } from "../form/Button";
 import { IoClose } from "react-icons/io5";
-import { useScreen } from "@/app/libs/hooks/useScreen";
+import { useScreen } from "@/libs/hooks/useScreen";
 
 export interface DialogComponentProps {
   children?: ReactNode; // Use ReactNode type for children
