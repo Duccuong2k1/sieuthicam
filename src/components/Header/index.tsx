@@ -26,7 +26,7 @@ export function Header({}: Props) {
           </Link>
           <div className="w-full lg:w-2/3">
             <InputSearch />
-            <ul className="lg:flex flex-row items-center justify-start gap-3 mt-2 lg:block hidden">
+            <ul className="lg:flex flex-row items-center justify-start gap-3 mt-2 hidden">
               {MENU?.map((item, idx) => (
                 <li key={idx}>
                   <Link
