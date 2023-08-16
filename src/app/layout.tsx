@@ -3,6 +3,7 @@ import "./globals.css";
 
 import { Inter } from "next/font/google";
 import { Footer } from "@/components/Footer";
+import Head from "./head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head />
+      <Head />
       <body className={inter.className}>
         <Header />
         <div className="min-h-screen bg-accent">{children}</div>
