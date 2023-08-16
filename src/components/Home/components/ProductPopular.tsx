@@ -18,14 +18,17 @@ export function ProductPopular() {
   }, [tabActive]);
   return (
     <BoxWarp className="my-3">
-      <div className="p-3">
+      <div className="lg:p-3">
         <div className="border-b border-accent sticky top-0 bg-white z-10">
-          <div className="font-medium text-lg my-2">Gợi ý hôm nay</div>
-          <div className="grid grid-cols-5 gap-5">
+          <div className="font-medium text-lg my-2 pt-2 lg:pt-0">
+            Gợi ý hôm nay
+          </div>
+
+          <div className="flex flex-row items-center justify-start lg:grid lg:grid-cols-5 gap-5 overflow-x-auto w-full lg:py-0 py-2">
             {PRODUCT_POPULAR.map((tab, idx) => (
               <div
                 key={idx}
-                className={`  text-black hover:bg-accent font-normal text-sm p-4 flex flex-col items-center justify-center cursor-pointer ${
+                className={`  text-black hover:bg-accent font-normal text-sm p-2 lg:p-4 flex flex-col items-center justify-center cursor-pointer ${
                   tabActive === tab.tab
                     ? " bg-primary-light font-medium text-primary border-b border-primary"
                     : "border-gray-300"
@@ -39,7 +42,7 @@ export function ProductPopular() {
                   height={40}
                   className="object-cover"
                 />
-                <span className="mt-2">{tab.title}</span>
+                <span className="mt-2 whitespace-nowrap">{tab.title}</span>
               </div>
             ))}
           </div>

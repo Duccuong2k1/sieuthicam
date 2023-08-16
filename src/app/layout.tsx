@@ -4,6 +4,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import Head from "./head";
+import { ToastProvider } from "@/libs/providers/toast-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,9 +17,11 @@ export default function RootLayout({
     <html lang="en">
       <Head />
       <body className={inter.className}>
-        <Header />
-        <div className="min-h-screen bg-accent">{children}</div>
-        <Footer />
+        <ToastProvider>
+          <Header />
+          <div className="min-h-screen bg-accent">{children}</div>
+          <Footer />
+        </ToastProvider>
       </body>
     </html>
   );

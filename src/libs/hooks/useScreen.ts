@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect } from "react";
 
 type BreakPoint = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";

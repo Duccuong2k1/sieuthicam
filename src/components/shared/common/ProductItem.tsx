@@ -18,26 +18,26 @@ export function ProductItem({ product }: { product: any }) {
       />
       <div className="p-2">
         <div className="flex justify-between items-center mb-2">
-          <span className="p-1  text-xs text-primary bg-primary-light uppercase rounded-md flex flex-row items-center whitespace-nowrap w-[100px]">
+          <span className="p-1  text-xs text-primary bg-primary-light uppercase rounded-md flex flex-row items-center whitespace-nowrap w-auto lg:w-[100px]">
             <i className="mr-1">
               <BsPatchCheckFill />
             </i>
-            <span>Còn hàng</span>
+            <span className="text-[8px]">Còn hàng</span>
           </span>
 
           {product?.discount && (
-            <span className="text-black bg-gray-200 rounded-full p-1 text-xs">
+            <span className="text-black bg-gray-200 rounded-full p-1  text-[9px] lg:text-xs">
               -{product?.discount}%
             </span>
           )}
         </div>
         <div>{product?.title}</div>
-        <div className="text-lg font-medium">
+        <div className="text-sm lg:text-lg font-medium">
           {parseNumber(product?.price)}đ
         </div>
-        <div className="border-t border-accent py-1 mt-1">
+        <div className="border-t border-accent py-1 mt-1 text-xs whitespace-nowrap">
           <span className="text-red-500 font-semibold mr-2">Now</span>
-          <span className="text-sm text-gray-500">Giao siêu tốc 24h</span>
+          <span className="lg:text-sm text-gray-500 text-[9px]">Giao siêu tốc 24h</span>
         </div>
       </div>
     </div>

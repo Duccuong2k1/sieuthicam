@@ -16,11 +16,11 @@ export function ProductBestSell() {
     }, [tabActive]);
     return (
       <>
-        <div className="flex flex-row items-center justify-start gap-5">
+        <div className="flex flex-row items-center justify-start gap-5 overflow-x-auto lg:py-0 py-3">
           {PRODUCT_BEST_SELL.map((tab, idx) => (
             <div
               key={idx}
-              className={`border  text-black hover:bg-accent font-medium px-4 rounded-xl cursor-pointer py-1 ${
+              className={`border  text-black hover:bg-accent font-medium px-4 rounded-xl whitespace-nowrap cursor-pointer py-1 ${
                 tabActive === tab.tab
                   ? "border-primary bg-primary-light font-semibold text-primary"
                   : "border-gray-300"
@@ -31,9 +31,9 @@ export function ProductBestSell() {
             </div>
           ))}
         </div>
-        <div className="mt-5">
+        <div className="mt-5 overflow-x-auto w-full">
           {!!products.length ? (
-            <div className="grid lg:grid-cols-5 gap-5 grid-cols-2">
+            <div className="lg:grid lg:grid-cols-5 gap-5 flex flex-row items-center justify-start ">
               {products.map((product, idx) => (
                 <ProductItem key={idx} product={product} />
               ))}

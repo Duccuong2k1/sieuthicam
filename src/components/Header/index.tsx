@@ -6,13 +6,15 @@ import { HiHome } from "react-icons/hi2";
 import { FaRegFaceSmileWink } from "react-icons/fa6";
 import { Button } from "../shared/utils/form/Button";
 import { MsgAds } from "./component/MsgAds";
+import { useScreen } from "@/libs/hooks/useScreen";
 type Props = {};
 
 export function Header({}: Props) {
+  // const isLg = useScreen("lg");
   return (
     <header className="bg-white">
       <div className="flex flex-row items-center justify-between container py-1">
-        <div className="flex flex-row items-center justify-start gap-10 w-full">
+        <div className="flex flex-row items-center justify-start gap-3 lg:gap-10 w-full">
           <Link href={"/"} className="text-xl font-semibold text-black">
             <Image
               src={"/img/logo-cam.png"}
@@ -22,10 +24,10 @@ export function Header({}: Props) {
               className="object-cover"
             />
           </Link>
-          <div className="w-2/3">
+          <div className="w-full lg:w-2/3">
             <InputSearch />
-            <ul className="flex flex-row items-center justify-start gap-3 mt-2">
-              {MENU.map((item, idx) => (
+            <ul className="lg:flex flex-row items-center justify-start gap-3 mt-2 lg:block hidden">
+              {MENU?.map((item, idx) => (
                 <li key={idx}>
                   <Link
                     href={item.url || "#"}
@@ -38,7 +40,7 @@ export function Header({}: Props) {
             </ul>
           </div>
         </div>
-        <div className="flex flex-row items-center justify-end gap-3 lg:w-1/4">
+        <div className=" hidden lg:flex flex-row items-center justify-end gap-3 lg:w-1/4">
           <Button
             href="/"
             text={"Trang chủ"}

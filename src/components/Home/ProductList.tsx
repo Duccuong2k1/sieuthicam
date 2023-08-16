@@ -32,6 +32,7 @@ export const PRODUCT_BEST_SELL: {
       ,
       { title: "HP 02", img: "/img/product/hp01.png", price: 120000 },
       { title: "HP 05", img: "/img/product/hp02.png", price: 356666 },
+      { title: "HP 05", img: "/img/product/hp02.png", price: 356666 },
     ],
   },
   {

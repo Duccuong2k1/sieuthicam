@@ -9,7 +9,7 @@ type Props = {};
 
 export function Footer({}: Props) {
   return (
-    <footer className="w-full lg:w-1/2 mx-auto p-3  mt-5">
+    <footer className="w-full lg:w-1/2 mx-auto p-3  lg:mt-5 mb-16 lg:mb-0">
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 place-items-start">
         <Link href={"/"} className="text-xl font-semibold text-black block">
           <Image
@@ -21,7 +21,7 @@ export function Footer({}: Props) {
           />
         </Link>
         <ul className="flex flex-col items-start justify-start gap-3  lg:pt-8 pt-0">
-          {MENU.map((item, idx) => (
+          {MENU?.map((item, idx) => (
             <li key={idx}>
               <Link href={item.url || "#"} className="text-gray-800 text-sm">
                 {item.title}

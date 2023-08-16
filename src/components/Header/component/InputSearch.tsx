@@ -10,9 +10,9 @@ export function InputSearch({}: Props) {
       </span>
       <input
         placeholder="Bạn tìm gì hôm nay"
-        className=" w-full mx-2 outline-none focus:outline-none"
+        className=" w-full mx-2 outline-none focus:outline-none p-3"
       />
-      <span className="whitespace-nowrap hover:bg-blue-100 p-3 text-sm font-medium hover:text-primary text-gray-500 cursor-pointer ">
+      <span className="whitespace-nowrap hover:bg-blue-100 p-3 text-sm font-medium hover:text-primary text-gray-500 cursor-pointer md:block hidden">
         Tìm kiếm
       </span>
     </div>
