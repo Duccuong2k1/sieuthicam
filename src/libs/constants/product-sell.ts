@@ -42,8 +42,8 @@ export const PRODUCT_BEST_SELL: {
     title: "Cám gà vịt",
     listProduct: [
       {
-        title: "HP 20",
-        id:"HP020",
+        title: "HP 20S",
+        id:"HP020S",
         img: "/img/product/hp20.png",
         desc: "Thức ăn hỗn hợp hoàn chỉnh cho gà con từ 1 ngày đến 14 ngày tuổi",
 
