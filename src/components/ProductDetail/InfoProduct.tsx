@@ -12,6 +12,7 @@ import { FaYoutube } from "react-icons/fa6";
 import { flatListProduct } from "@/libs/helpers/flat-list-product";
 import { PRODUCT_POPULAR } from "@/libs/constants/product-popular";
 import { randomInRange } from "@/libs/helpers/random-number";
+import Link from "next/link";
 
 type Props = {
   productId: string;
@@ -76,12 +77,12 @@ export function InfoProduct({ productId }: Props) {
           </div>
           <div className="flex flex-row items-center justify-start my-2 gap-4">
             <span>Chia sẻ:</span>
-            <span className=" rounded-full text-xl text-primary cursor-pointer">
+            <Link href={"https://www.facebook.com/profile.php?id=100027831152746"} className=" rounded-full text-xl text-primary cursor-pointer">
               <BsFacebook />
-            </span>
-            <span className="rounded-full text-xl text-blue-500 cursor-pointer">
+            </Link>
+            <Link href={"https://www.facebook.com/messages/t/100027831152746"} className="rounded-full text-xl text-blue-500 cursor-pointer">
               <BsMessenger />
-            </span>
+            </Link>
             <span className="rounded-full text-xl text-red-500 cursor-pointer">
               <FaYoutube />
             </span>
