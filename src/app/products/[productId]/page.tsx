@@ -1,3 +1,6 @@
+import { DescriptionProduct } from '@/components/ProductDetail/DescriptionProduct';
+import { InfoProduct } from '@/components/ProductDetail/InfoProduct';
+import { ListProductSimilarSlider } from '@/components/ProductDetail/ListProductSimilarSlider';
 import React from 'react'
 
 
@@ -8,8 +11,10 @@ export default function ProductDetailPage({
     params: { productId: string };
   }) {
   return (
-    <div className='text-red-500 container'>
-        {params?.productId}
-    </div>
+    <section className='container py-3'>
+        <InfoProduct productId={params?.productId}/>
+        <DescriptionProduct/>
+        <ListProductSimilarSlider />
+    </section>
   )
 }

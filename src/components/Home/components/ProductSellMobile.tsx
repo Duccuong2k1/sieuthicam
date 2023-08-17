@@ -13,8 +13,6 @@ export default function ProductSellMobile({ products }: Props) {
         className="h-full my-4"
         slidesPerView={2.1}
         spaceBetween={10}
-   
-    
       >
         {products.map((item, index) => (
           <SwiperSlide key={index}>

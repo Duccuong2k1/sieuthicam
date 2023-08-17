@@ -1,5 +1,5 @@
 "use client"
-import { ContactPhoneNumber } from "@/components/ContactPhoneNumber";
+
 import { FloatingMenu } from "@/components/FloatingMenu";
 import { Banner } from "@/components/Home/Banner";
 import { Categories } from "@/components/Home/Categories";
@@ -45,7 +45,6 @@ export default function Home() {
     <div className="lg:hidden block">
       <FloatingMenu/>
     </div>
-    <ContactPhoneNumber/>
     </>
   );
 }
