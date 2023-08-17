@@ -41,7 +41,6 @@ export function InfoProduct({ productId }: Props) {
             alt={infoProduct?.desc}
             width={300}
             height={400}
-            
           />
         </div>
         <div className="border-l pl-2 lg:pl-8 lg:col-span-2 w-full">
@@ -66,7 +65,9 @@ export function InfoProduct({ productId }: Props) {
               <BsStarHalf />
             </i>
           </div>
-          <div className="my-2 text-gray-500  ">Đã bán {randomInRange(10,1000)}</div>
+          <div className="my-2 text-gray-500  ">
+            Đã bán {randomInRange(10, 1000)}
+          </div>
           <div className="p-2 border rounded-lg w-full lg:w-1/2">
             <div className="text-green-600 font-semibold">
               <span className="text-red-500">Now </span> | Giao hàng trong 24h
@@ -77,10 +78,18 @@ export function InfoProduct({ productId }: Props) {
           </div>
           <div className="flex flex-row items-center justify-start my-2 gap-4">
             <span>Chia sẻ:</span>
-            <Link href={"https://www.facebook.com/profile.php?id=100027831152746"} className=" rounded-full text-xl text-primary cursor-pointer">
+            <Link
+              href={"https://www.facebook.com/profile.php?id=100027831152746"}
+              target="_blank"
+              className=" rounded-full text-xl text-primary cursor-pointer"
+            >
               <BsFacebook />
             </Link>
-            <Link href={"https://www.facebook.com/messages/t/100027831152746"} className="rounded-full text-xl text-blue-500 cursor-pointer">
+            <Link
+              href={"https://www.facebook.com/messages/t/100027831152746"}
+              target="_blank"
+              className="rounded-full text-xl text-blue-500 cursor-pointer"
+            >
               <BsMessenger />
             </Link>
             <span className="rounded-full text-xl text-red-500 cursor-pointer">

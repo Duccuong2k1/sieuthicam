@@ -1,3 +1,5 @@
+import { CategoriesProductList } from '@/components/Products/CategoriesProductList'
+import { BoxWarp } from '@/components/shared/common/BoxWarp'
 import { Button } from '@/components/shared/utils/form/Button'
 import React from 'react'
 
@@ -5,9 +7,10 @@ type Props = {}
 
 export default function ProductsPage({}: Props) {
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="my-3">Trang đăng phát triển</div>
-      <Button text="Quay lại trang chủ" className={"bg-primary-light p-2"} href={"/"}/>
-    </div>
+    <section className="container py-3">
+      <BoxWarp className=''>
+        <CategoriesProductList/>
+      </BoxWarp>
+    </section>
   )
 }
