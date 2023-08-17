@@ -1,28 +1,28 @@
-"use client"
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { BiSolidHome, BiSolidUser } from "react-icons/bi";
 import { BsFillGridFill } from "react-icons/bs";
 import { IoNewspaper } from "react-icons/io5";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useToast } from "@/libs/providers/toast-provider";
 type Props = {};
 
 export function FloatingMenu({}: Props) {
   const pathname = usePathname();
-  const toast = useToast();
+  const router = useRouter();
+  const [tab, setTab] = useState("/");
   return (
     <div className="fixed bottom-0 w-full p-2 bg-white shadow z-10 border-t border-accent">
       <div className="grid grid-cols-4 gap-3">
         {FLOATING_MENU?.map((menu, idx) => (
           <div
-          key={idx}
+            key={idx}
             className={`flex items-center justify-center flex-col gap-2  ${
-              menu.url == "/" ? "text-primary" : "text-gray-500"
+              tab === menu.url ? "text-primary" : "text-gray-500"
             }`}
             onClick={() => {
-              if (pathname !== menu.url) {
-                toast.info("Tính năng đang phát triển");
-              }
+              router.push(menu.url);
+              setTab(menu.url);
             }}
           >
             <i>{menu.icon}</i>
@@ -43,16 +43,16 @@ const FLOATING_MENU = [
   {
     icon: <BsFillGridFill />,
     title: "Danh mục",
-    url: "",
+    url: "/products",
   },
   {
     icon: <IoNewspaper />,
     title: "Tin tức",
-    url: "#",
+    url: "/blog",
   },
   {
     icon: <BiSolidUser />,
     title: "Tài khoản",
-    url: "#",
+    url: "/user",
   },
 ];

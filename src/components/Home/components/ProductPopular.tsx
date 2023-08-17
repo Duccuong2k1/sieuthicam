@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { ProductItem } from "@/components/shared/common/ProductItem";
 import { BoxWarp } from "@/components/shared/common/BoxWarp";
 import Image from "next/image";
-import { PRODUCT_POPULAR } from "../ProductList";
+import { PRODUCT_POPULAR } from "@/libs/constants/product-popular";
+
 
 export function ProductPopular() {
-  const [tabActive, setTabActive] = useState("PIG");
+  const [tabActive, setTabActive] = useState("FOR_YOU");
   const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
