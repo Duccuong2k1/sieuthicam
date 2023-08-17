@@ -11,6 +11,7 @@ import {
 import { FaYoutube } from "react-icons/fa6";
 import { flatListProduct } from "@/libs/helpers/flat-list-product";
 import { PRODUCT_POPULAR } from "@/libs/constants/product-popular";
+import { randomInRange } from "@/libs/helpers/random-number";
 
 type Props = {
   productId: string;
@@ -64,7 +65,7 @@ export function InfoProduct({ productId }: Props) {
               <BsStarHalf />
             </i>
           </div>
-          <div className="my-2 text-gray-500  ">Đã bán 1000</div>
+          <div className="my-2 text-gray-500  ">Đã bán {randomInRange(10,1000)}</div>
           <div className="p-2 border rounded-lg w-full lg:w-1/2">
             <div className="text-green-600 font-semibold">
               <span className="text-red-500">Now </span> | Giao hàng trong 24h

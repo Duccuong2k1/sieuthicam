@@ -1,3 +1,4 @@
+import { randomInRange } from "@/libs/helpers/random-number";
 import { useScreen } from "@/libs/hooks/useScreen";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,9 +6,7 @@ import { BsPatchCheckFill } from "react-icons/bs";
 
 export function ProductItem({ product }: { product: any }) {
   const isLg = useScreen("lg");
-  const randomInRange = (min: number, max: number) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
+  
 
   return (
     <Link href={`/products/${product?.id}?title=${product?.desc}`}>
