@@ -40,7 +40,7 @@ function SliderBanner() {
         disableOnInteraction: false,
       }}
       pagination={true}
-      modules={[Autoplay,Pagination]}
+      modules={[Autoplay, Pagination]}
       loop={true}
     >
       {!!bannerSlide?.length &&
@@ -64,17 +64,16 @@ function SliderBanner() {
 }
 
 const BANNER = [
-  //   {
-  //     image: "/img/banner-1.jpg",
-  //     url: "#",
-  //   },
   {
-    image: "/img/banner-3.png",
+    image: "/img/banner-01.png",
     url: "#",
   },
   {
-    image: "/img/banner-2.png",
+    image: "/img/banner-02.png",
     url: "#",
   },
-  
+  {
+    image: "/img/banner-03.png",
+    url: "#",
+  },
 ];
