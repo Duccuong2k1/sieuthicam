@@ -7,6 +7,7 @@ const config: Config = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/containers/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     container: {
@@ -47,8 +48,8 @@ const config: Config = {
       white: "#FFFFFF",
       black: "#181024",
       primary: "#0067ff",
-      "primary-light":"#f0f8ff",
-      accent:"#f5f5fa",
+      "primary-light": "#f0f8ff",
+      accent: "#f5f5fa",
     },
     extend: {
       backgroundImage: {
