@@ -11,12 +11,9 @@ import { useToast } from '@/libs/providers/toast-provider'
 import { TableHeader } from '@/components/shared/table/TableHeader'
 import { formatDate, parseNumber } from '@/libs/helpers/parser'
 import DataTableContext, { DataTableContextRef } from '@/components/shared/table/DataTableContext'
-import { deleteTicket, getTickets } from '@/actions/ticket.action'
 
-import { BsSendCheck } from 'react-icons/bs'
 import { MdOutlineRemoveRedEye } from 'react-icons/md'
 
-import { ShowDetailTicketDialog } from './ShowDetailTicketDialog'
 import { IProduct } from '@/types/product'
 import { deleteProduct, getProducts } from '@/actions/product.action'
 import { CreateUpdateProductForm } from './CreateUpdateProductForm'
@@ -69,23 +66,34 @@ export function DataTableProduct({}: Props) {
       ),
     },
     {
-      title: 'Tiêu đề',
+      title: 'Tên sản phẩm',
       dataIndex: 'title',
       key: 'title',
     },
-    {
-      title: 'Thương hiệu',
-      dataIndex: 'brand',
-      key: 'brand',
-    },
+
     {
       title: 'Giá bán',
-      dataIndex: 'price',
-      key: 'price',
-      sorter: (a, b) => a.price - b.price,
-      render: (_, { price }) => {
-        return <div>{parseNumber(price, 'VND')}</div>
+      dataIndex: 'salePrice',
+      key: 'salePrice',
+      sorter: (a, b) => a.salePrice - b.salePrice,
+      render: (_, { salePrice }) => {
+        return <div>{parseNumber(salePrice, 'VND')}</div>
       },
+    },
+
+    {
+      title: 'Số lượng tồn',
+      dataIndex: 'quantity',
+      key: 'quantity',
+      sorter: (a, b) => a.quantity - b.quantity,
+      render: (_, { quantity }) => {
+        return <div>{parseNumber(quantity)}</div>
+      },
+    },
+    {
+      title: 'Đơn vị',
+      dataIndex: 'unit',
+      key: 'unit',
     },
     {
       title: 'Ngày tạo',
@@ -109,7 +117,7 @@ export function DataTableProduct({}: Props) {
       key: 'action',
       render: (_, record) => (
         <Space size="small">
-          <Tooltip placement="leftTop" color={'info'} key={'info'} title="Xem chi tiết">
+          {/* <Tooltip placement="leftTop" color={'info'} key={'info'} title="Xem chi tiết">
             <Button
               onClick={() => {
                 setIsOpenDialogForm(true)
@@ -117,7 +125,7 @@ export function DataTableProduct({}: Props) {
               }}
               icon={<MdOutlineRemoveRedEye />}
             ></Button>
-          </Tooltip>
+          </Tooltip> */}
           <Button
             onClick={() => {
               setIsOpenDialogForm(true)
@@ -171,6 +179,7 @@ export function DataTableProduct({}: Props) {
         columns={columns}
         fetchDataResponse={getProducts}
         rowSelection={rowSelection}
+        textPlaceholder="Tìm kiếm theo, tên, mã sp,.. "
       />
 
       <CreateUpdateProductForm

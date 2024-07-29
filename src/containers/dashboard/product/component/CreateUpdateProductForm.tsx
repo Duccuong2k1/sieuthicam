@@ -11,6 +11,8 @@ import ImageUploadField from '@/components/shared/upload-image/ImageUploadField'
 import { OverlayLoadingModal } from '@/components/shared/common/OverlayLoadingModal'
 import MarkdownEditor from '@/components/shared/common/MarkdowEditor'
 import ImageUploadRaw from '@/components/shared/upload-image/ImageUploadRaw'
+import { UNIT_OPTIONS } from '@/libs/constants/product'
+import { formatterVND, parserVND } from '@/libs/helpers/parser'
 
 interface CollectionCreateFormProps {
   open: boolean
@@ -87,11 +89,9 @@ export function CreateUpdateProductForm({ open, updateValue, onCancel, onRefetch
       title: '',
       description: '',
       category: '',
-      price: 0,
-      quantity: 0,
-      size: '',
-      color: '',
-      brand: '',
+
+      weight: 0,
+      unit: '',
       images: [],
       thumbnail: [],
       code: '',
@@ -102,10 +102,6 @@ export function CreateUpdateProductForm({ open, updateValue, onCancel, onRefetch
     setThumbnail([])
     setImages([])
   }
-
-  const formatterVND = (value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-
-  const parserVND = (value: any) => value.replace(/\$\s?|(,*)/g, '')
 
   const handleThumbChange = (url: string) => {
     setThumbnail([...thumbnail, url])
@@ -195,43 +191,28 @@ export function CreateUpdateProductForm({ open, updateValue, onCancel, onRefetch
                   }))}
                 />
               </Form.Item>
-              <Form.Item
-                name="brand"
-                label="Thương hiệu"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Vui lòng không để trống thương hiệu',
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
 
               <div className="grid grid-cols-2 gap-1">
-                <Form.Item name="color" label="Màu sắc">
-                  <Input />
+                <Form.Item name="weight" label="Trọng lượng">
+                  <InputNumber formatter={formatterVND} parser={parserVND} style={{ width: '100%' }} />
                 </Form.Item>
-                <Form.Item name="size" label="size">
-                  <Input />
-                </Form.Item>
-              </div>
-              <div className="grid grid-cols-2 gap-1">
                 <Form.Item
-                  name="price"
-                  label="Giá"
+                  name="unit"
+                  label="Đơn vị đo"
                   rules={[
                     {
                       required: true,
-                      message: 'Vui lòng không để trống giá',
+                      message: 'Vui lòng không để trống đơn vị đo',
                     },
                   ]}
                 >
-                  <InputNumber formatter={formatterVND} parser={parserVND} style={{ width: '100%' }} suffix={'VND'} />
+                  <Select options={UNIT_OPTIONS} />
                 </Form.Item>
-                <Form.Item name="quantity" label="Số  lượng">
+              </div>
+              <div className="grid grid-cols-2 gap-1">
+                {/* <Form.Item name="quantity" label="Số  lượng">
                   <InputNumber formatter={formatterVND} parser={parserVND} style={{ width: '100%' }} />
-                </Form.Item>
+                </Form.Item> */}
               </div>
               <Form.Item
                 name="description"

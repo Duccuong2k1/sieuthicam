@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { BiUserCircle } from 'react-icons/bi'
+import { FaBell } from 'react-icons/fa6'
+import { MdAddShoppingCart } from 'react-icons/md'
 
 type Props = {}
 
@@ -28,7 +30,15 @@ export function HeaderNav({}: Props) {
       <Link href={'/'} className="flex flex-row items-center justify-start font-semibold text-lg">
         <span className="text-primary">Sieu thi cam</span> / Admin
       </Link>
-      <div>
+      <div className="flex flex-row items-center gap-5">
+        <Link href="/dashboard/orders">
+          <Button className="bg-blue-500" type="primary" icon={<MdAddShoppingCart />}>
+            Tạo đơn hàng
+          </Button>
+        </Link>
+        <Button className="border-none text-lg">
+          <FaBell />
+        </Button>
         <Dropdown menu={{ items }} placement="bottomRight">
           <Button style={{ border: 'none' }} className="text-sm items-center flex flex-row" icon={<BiUserCircle />}>
             {admin?.firstName}

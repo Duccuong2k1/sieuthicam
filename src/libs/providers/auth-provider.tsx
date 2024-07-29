@@ -56,7 +56,7 @@ export function AuthProvider({ ...props }) {
       const response = await loginAccount(email, password)
 
       if (response && response.success) {
-        toast.success(response.message)
+        toast.success('Đăng nhập thành công')
         SetValueLocalStorage(GLOBAL.ADMIN, response.data)
         SetValueToken(GLOBAL.ACCESS_TOKEN, response.accessToken)
         // if (response.refetchToken) {
@@ -66,7 +66,7 @@ export function AuthProvider({ ...props }) {
         router.push('/dashboard')
       }
     } catch (error) {
-      toast.error('Login failed password or email')
+      toast.error('Đăng nhập thất bại sai mật khẩu hoặc email!')
       console.error('Login admin failed', error)
     }
   }
@@ -111,10 +111,12 @@ export function AuthProvider({ ...props }) {
       } else {
         setAdmin(null as any)
         ClearValueToken(GLOBAL.ACCESS_TOKEN)
+        ClearValueLocalStorage(GLOBAL.ADMIN)
       }
     } catch (error) {
       setAdmin(null as any)
       ClearValueToken(GLOBAL.ACCESS_TOKEN)
+      ClearValueLocalStorage(GLOBAL.ADMIN)
       console.log('get user error', error)
     }
   }

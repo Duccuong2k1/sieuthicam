@@ -67,6 +67,10 @@ const MenuNav: MenuItem[] = [
   getItem(<Link href={`${pathAdmin}/categories`}>Quản lý danh mục</Link>, '2', <OrderedListOutlined />),
   getItem(<Link href={`${pathAdmin}/products`}>Quản lý sản phẩm</Link>, '3', <AppstoreOutlined />),
   getItem(<Link href={`${pathAdmin}/orders`}>Quản lý đơn hàng</Link>, '4', <BsJournalText />),
+  getItem(<Link href={`${pathAdmin}/inventory`}>Quản lý tồn kho</Link>, '9', <BsJournalText />),
+
+  getItem(<Link href={`${pathAdmin}/import-history`}>Quản lý lịch sử nhập hàng</Link>, '10', <BsJournalText />),
+
   getItem(<Link href={`${pathAdmin}/contacts`}>Liên hệ hỗ trợ</Link>, '6', <MdOutlineContactMail />),
   getItem(<Link href={`${pathAdmin}/coupons`}>Danh sách khuyến mãi</Link>, '7', <MdOutlineDiscount />),
   getItem(<Link href={`${pathAdmin}/blogs`}>Quản lý danh mục & bài viết</Link>, '8', <MdContentPaste />),

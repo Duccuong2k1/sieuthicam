@@ -14,6 +14,9 @@ export interface IProduct extends BaseProps {
   totalRatings: number;
   ratings: string[];
   code: string;
+  unit: string;
+  weight: number | string;
+  salePrice: number
 }
 
 

@@ -1,75 +1,72 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from 'react'
 
-import { useToast } from "@/libs/providers/toast-provider";
-import { Form, Input, Modal, Select } from "antd";
+import { useToast } from '@/libs/providers/toast-provider'
+import { Form, Input, Modal, Select } from 'antd'
 
-import { IBrand } from "@/types/category";
+import { IBrand } from '@/types/category'
 
-import { useGetCategory } from "@/libs/hooks/useGetCategory";
-import { createBrand, getBrands, updateBrand } from "@/actions/brand.action";
-
+import { useGetCategory } from '@/libs/hooks/useGetCategory'
+import { createBrand, getBrands, updateBrand } from '@/actions/brand.action'
 
 interface Values {
-  title: string;
-  description: string;
-  modifier: string;
+  title: string
+  description: string
+  modifier: string
 }
 interface CollectionCreateFormProps {
-  open: boolean;
-  onCancel: () => void;
-  updateValue: IBrand | null;
-  onRefetchingTable: () => void;
-
+  open: boolean
+  onCancel: () => void
+  updateValue: IBrand | null
+  onRefetchingTable: () => void
 }
 
-export function CreateUpdateBrandForm({
-  open,
-  updateValue,
-  onCancel,
-  onRefetchingTable,
-}: CollectionCreateFormProps) {
-  const [form] = Form.useForm();
-  const toast = useToast();
+export function CreateUpdateBrandForm({ open, updateValue, onCancel, onRefetchingTable }: CollectionCreateFormProps) {
+  const [form] = Form.useForm()
+  const toast = useToast()
 
-  const { isLoading, categoryData } = useGetCategory();
-
+  const { isLoading, categoryData, refreshCategories } = useGetCategory()
+  useEffect(() => {
+    if (open) {
+      refreshCategories()
+    }
+  }, [open])
   const labelForm = useMemo(() => {
-    return updateValue ? "Cập nhật" : "Tạo";
-  }, [updateValue]);
+    return updateValue ? 'Cập nhật' : 'Tạo'
+  }, [updateValue])
 
   const onCreate = async (values: any) => {
     if (updateValue) {
       try {
-        const res = await updateBrand(updateValue._id, values);
+        const res = await updateBrand(updateValue._id, values)
         if (res && res.success) {
-          toast.success("Cập nhật loại hình thành công");
-          onCancel();
-          onRefetchingTable();
+          toast.success('Cập nhật loại hình thành công')
+          onCancel()
+          onRefetchingTable()
         }
       } catch (err) {
-        toast.error("Cập nhật loại hình thất bai");
-        console.log("error create user", err);
+        toast.error('Cập nhật loại hình thất bai')
+        console.log('error create user', err)
       }
     } else {
       try {
-        const res = await createBrand(values);
+        const res = await createBrand(values)
         if (res && res.success) {
-          toast.success("Tạo loại hình thành công");
-          onCancel();
-          onRefetchingTable();
+          toast.success('Tạo loại hình thành công')
+          onCancel()
+          onRefetchingTable()
         }
       } catch (err) {
-        toast.error("Tạo loại hình thất bai");
-        console.log("error create user", err);
+        toast.error('Tạo loại hình thất bai')
+        console.log('error create user', err)
       }
     }
-  };
+  }
   const resetFieldForm = () => {
     return {
-      title: "",
-      categoryId: "",
-    };
-  };
+      title: '',
+      categoryId: '',
+    }
+  }
 
   return (
     <Modal
@@ -78,25 +75,25 @@ export function CreateUpdateBrandForm({
       okText={`${labelForm}`}
       okButtonProps={{
         style: {
-          background: "#1a94c4",
+          background: '#1a94c4',
         },
       }}
       cancelText="Cancel"
       onCancel={() => {
-        form.resetFields();
-        resetFieldForm();
-        onCancel();
+        form.resetFields()
+        resetFieldForm()
+        onCancel()
       }}
       onOk={() => {
         form
           .validateFields()
           .then((values) => {
-            form.resetFields();
-            onCreate(values);
+            form.resetFields()
+            onCreate(values)
           })
           .catch((info) => {
-            console.log("Validate Failed:", info);
-          });
+            console.log('Validate Failed:', info)
+          })
       }}
       afterOpenChange={(open) => {
         if (open) {
@@ -104,8 +101,8 @@ export function CreateUpdateBrandForm({
             {
               title: updateValue?.title,
               categoryId: updateValue?.category?._id,
-            } || resetFieldForm()
-          );
+            } || resetFieldForm(),
+          )
         }
       }}
     >
@@ -113,10 +110,7 @@ export function CreateUpdateBrandForm({
         form={form}
         layout="vertical"
         name="form_in_modal"
-        initialValues={
-          { ...updateValue, categoryId: updateValue?.category?._id } ||
-          resetFieldForm()
-        }
+        initialValues={{ ...updateValue, categoryId: updateValue?.category?._id } || resetFieldForm()}
       >
         <Form.Item
           name="title"
@@ -124,7 +118,7 @@ export function CreateUpdateBrandForm({
           rules={[
             {
               required: true,
-              message: "Vui lòng không để trống tên",
+              message: 'Vui lòng không để trống tên',
             },
           ]}
         >
@@ -137,14 +131,14 @@ export function CreateUpdateBrandForm({
           rules={[
             {
               required: true,
-              message: "Vui lòng không để trống danh mục",
+              message: 'Vui lòng không để trống danh mục',
             },
           ]}
         >
           <Select
             placeholder="Chọn danh mục"
             onChange={(value) => {
-              form.setFieldsValue({ categoryId: value });
+              form.setFieldsValue({ categoryId: value })
             }}
             allowClear
             loading={isLoading}
@@ -152,9 +146,11 @@ export function CreateUpdateBrandForm({
               value: cate._id,
               label: cate.title,
             }))}
+            showSearch
+            optionFilterProp="label"
           />
         </Form.Item>
       </Form>
     </Modal>
-  );
+  )
 }
