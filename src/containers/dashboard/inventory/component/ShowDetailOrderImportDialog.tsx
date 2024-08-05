@@ -1,10 +1,8 @@
 import { TitleContentRow } from '@/components/shared/common/TitleContentRow'
 import { formatDate, parseNumber } from '@/libs/helpers/parser'
 import { IInventory, IItemsImport } from '@/types/inventory'
-import { IOrder, IOrderProduct, STATUS_ORDER } from '@/types/order'
-import { IProduct } from '@/types/product'
+
 import { Image, Modal, Table, TableColumnsType, Tag } from 'antd'
-import { useMemo } from 'react'
 
 interface CollectionCreateFormProps {
   open: boolean
@@ -57,7 +55,7 @@ export function ShowDetailOrderImportDialog({ open, detailItem, onCancel }: Coll
   )
 }
 
-function ProductListOrder({ productList }: { productList: IOrderProduct | any }) {
+function ProductListOrder({ productList }: { productList: IItemsImport | any }) {
   const columns: TableColumnsType<IItemsImport> = [
     {
       title: 'Tên sản phẩm',

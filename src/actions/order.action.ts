@@ -17,6 +17,15 @@ const getOrdersByAdmin = async (params: IQueryParams) => {
   return response.data;
 };
 
+const createOrderByAdmin = async (payloads: IOrder) => {
+  const response = await axiosClient.post<CustomAxiosResponse<IOrder>>(
+    `${path}/create`,
+    payloads
+  );
+  return response.data;
+};
+
+
 const deleteOrder = async (id: string) => {
   const response = await axiosClient.delete<CustomAxiosResponse<IOrder>>(
     `${path}/${id}`
@@ -36,4 +45,4 @@ const updateStatusOrder = async (id: string, value: string) => {
 
 
 
-export { getOrdersByAdmin, deleteOrder, updateStatusOrder }
+export { getOrdersByAdmin, deleteOrder, updateStatusOrder, createOrderByAdmin }

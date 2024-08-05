@@ -1,6 +1,7 @@
 import { TitleContentRow } from '@/components/shared/common/TitleContentRow'
+import UnitRow from '@/components/shared/common/UnitRow'
 import { formatDate, parseNumber } from '@/libs/helpers/parser'
-import { IOrder, IOrderProduct, STATUS_ORDER } from '@/types/order'
+import { IOrder, IOrderProduct, PAYMENT_METHOD_ORDER, STATUS_ORDER } from '@/types/order'
 import { IProduct } from '@/types/product'
 import { Image, Modal, Table, TableColumnsType, Tag } from 'antd'
 import { useMemo } from 'react'
@@ -47,21 +48,27 @@ export function ShowDetailOrderDialog({ open, detailItem, onCancel }: Collection
         </div>
         <div className="grid grid-cols-2 gap-2 mt-2">
           <TitleContentRow label="Trạng thái đơn" content={renderStatusOrder} />
-          <TitleContentRow label="Hình thức thanh toán" content={'Banking'} />
+          <TitleContentRow
+            label="Hình thức thanh toán"
+            content={PAYMENT_METHOD_ORDER?.find((item) => item.value === detailItem?.paymentMethod)?.label}
+          />
         </div>
 
         <div className="grid grid-cols-2 gap-2 mt-2">
-          <TitleContentRow label="Tên người mua" content={detailItem?.code} />
-          <TitleContentRow label="Địa chỉ đặt hàng" content={'Tan Binh, HCM city'} />
+          <TitleContentRow label="Tên người mua" content={detailItem?.buyerName} />
+          <TitleContentRow label="Địa chỉ đặt hàng" content={detailItem?.buyerAddress} />
+        </div>
+        <div className="grid grid-cols-2 gap-2 mt-2">
+          <TitleContentRow label="Số điện thoại" content={detailItem?.buyerPhone} />
         </div>
 
         <div className="mt-3 text-lg font-bold ">Sản phẩm đã đặt:</div>
         <>
-          <ProductListOrder productList={detailItem?.products} />
+          <ProductListOrder productList={detailItem?.items} />
         </>
         <TitleContentRow
           label="Tổng tiền"
-          content={<span className="text-green-500 font-bold">{parseNumber(detailItem?.total, 'VND')}</span>}
+          content={<span className="text-green-500 font-bold">{parseNumber(detailItem?.totalCost, 'VND')}</span>}
           className="text-lg my-4"
         />
       </div>
@@ -75,11 +82,11 @@ function ProductListOrder({ productList }: { productList: IOrderProduct | any })
       title: 'Tên sản phẩm',
       dataIndex: 'productName',
       key: 'productName',
-      render: (_, { product }) => (
+      render: (_, { productId }) => (
         <>
           <div className="flex flex-row items-center gap-2">
-            <Image src={product?.thumbnail} alt="Image product order" width={50} height={50} />
-            <span>{product?.title}</span>
+            <Image src={productId?.thumbnail} alt="Image product order" width={50} height={50} />
+            <span>{productId?.title}</span>
           </div>
         </>
       ),
@@ -89,26 +96,22 @@ function ProductListOrder({ productList }: { productList: IOrderProduct | any })
       title: 'Giá sản phẩm',
       dataIndex: 'price',
       key: 'price',
-      render: (_, { product }) => (
+      render: (_, { productId }) => (
         <>
-          <div className="">{parseNumber(product?.price, 'VND')}</div>
+          <div className="">{parseNumber(productId?.salePrice, 'VND')}</div>
         </>
       ),
     },
     {
-      title: 'Số lượng',
-      dataIndex: 'count',
-      key: 'count',
-    },
-    {
-      title: 'Kích thước',
-      dataIndex: 'size',
-      key: 'size',
-    },
-    {
-      title: 'Màu sắc',
-      dataIndex: 'color',
-      key: 'color',
+      title: 'Số lượng / Trọng lượng',
+      dataIndex: 'quantity',
+      key: 'quantity',
+      render: (_, { quantity, weight, unit }) => (
+        <div className="flex flex-row gap-2 items-center">
+          <div className="">{parseNumber(quantity ? quantity : weight)} </div>
+          <UnitRow unit={unit} />
+        </div>
+      ),
     },
   ]
   return <Table columns={columns} dataSource={productList} pagination={false} className="border" />

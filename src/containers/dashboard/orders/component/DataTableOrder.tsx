@@ -1,5 +1,5 @@
 'use client'
-import React, { ReactNode, useCallback, useEffect, useId, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Button, Dropdown, MenuProps, Popconfirm, Space, Tag } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { RiDeleteBin6Line } from 'react-icons/ri'
@@ -11,14 +11,14 @@ import { useToast } from '@/libs/providers/toast-provider'
 import { TableHeader } from '@/components/shared/table/TableHeader'
 import { formatDate, parseNumber } from '@/libs/helpers/parser'
 import DataTableContext, { DataTableContextRef } from '@/components/shared/table/DataTableContext'
-import { ICoupon } from '@/types/coupon'
 
-import { deleteCoupon, getCoupons } from '@/actions/coupon.action'
 import { IOrder, STATUS_ORDER } from '@/types/order'
 import { deleteOrder, getOrdersByAdmin, updateStatusOrder } from '@/actions/order.action'
 import { CreateUpdateOrderForm } from './CreateUpdateOrderForm'
 import { MdOutlineRemoveRedEye } from 'react-icons/md'
 import { ShowDetailOrderDialog } from './ShowDetailOrderDialog'
+import { ConfirmDeleteOrder } from './ConfirmDeleteOrder'
+import { OrderProvider } from '@/libs/providers/order-provider'
 
 type Props = {}
 
@@ -26,6 +26,7 @@ export function DataTableOrder({}: Props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [isOpenDialogForm, setIsOpenDialogForm] = useState(false)
   const [isOpenDetailDialog, setIsOpenDetailDialog] = useState(false)
+  const [isConfirmDelete, setIsConfirmDelete] = useState(false)
 
   const tableRef = useRef<DataTableContextRef>(null)
 
@@ -49,21 +50,38 @@ export function DataTableOrder({}: Props) {
 
   const handleMenuClick: MenuProps['onClick'] = async (e) => {
     if (dataSelected?._id) {
-      if (dataSelected.status === 'Shipped') {
-        toast.error('Không thể thay đổi trạng thái của đơn hàng đã giao hàng.')
+      if (e.key === 'Cancelled') {
+        setIsConfirmDelete(true)
         return
-      }
-      try {
-        await updateStatusOrder(dataSelected?._id, e.key)
-        toast.success('Cập nhật trạng thái đơn thành công')
-        handleReload()
-      } catch (err) {
-        console.log('err update status', err)
-        toast.error('Cập nhật trạng thái đơn thất bại')
+      } else {
+        if (dataSelected.status === 'Shipped') {
+          toast.error('Không thể thay đổi trạng thái của đơn hàng đã giao hàng.')
+          return
+        } else {
+          try {
+            console.log('run oi data table')
+            await updateStatusOrder(dataSelected?._id, e.key)
+            toast.success('Cập nhật trạng thái đơn thành công')
+            handleReload()
+          } catch (err) {
+            console.log('err update status', err)
+            toast.error('Cập nhật trạng thái đơn thất bại')
+            setIsConfirmDelete(false)
+          }
+        }
       }
     }
   }
+  useEffect(() => {
+    if (isConfirmDelete) {
+      const timer = setTimeout(() => {
+        setIsConfirmDelete(false)
+      }, 1000)
 
+      // Cleanup function to clear the timeout if the component unmounts
+      return () => clearTimeout(timer)
+    }
+  }, [isConfirmDelete])
   const items: MenuProps['items'] = STATUS_ORDER.map((status, index) => ({
     label: status.label,
     key: status.value,
@@ -81,7 +99,7 @@ export function DataTableOrder({}: Props) {
       key: 'code',
     },
     {
-      title: 'Ngày tạo',
+      title: 'Ngày tạo đơn',
       dataIndex: 'createdAt',
       key: 'createdAt',
       sorter: (a, b) => +a.createdAt - +b.createdAt,
@@ -91,11 +109,11 @@ export function DataTableOrder({}: Props) {
     },
     {
       title: 'Tổng tiền',
-      dataIndex: 'total',
-      key: 'total',
-      sorter: (a, b) => a.total - b.total,
-      render: (_, { total }) => {
-        return <div>{parseNumber(total, 'VND')}</div>
+      dataIndex: 'totalCost',
+      key: 'totalCost',
+      sorter: (a, b) => +a.totalCost - +b.totalCost,
+      render: (_, { totalCost }) => {
+        return <div className="font-medium text-blue-500">{parseNumber(totalCost, 'VND')}</div>
       },
     },
     {
@@ -165,7 +183,7 @@ export function DataTableOrder({}: Props) {
   }, [])
 
   return (
-    <>
+    <OrderProvider>
       <TableHeader
         handleRefetch={handleReload}
         label="đơn "
@@ -193,6 +211,12 @@ export function DataTableOrder({}: Props) {
         onCancel={() => setIsOpenDetailDialog(false)}
         detailItem={dataSelected}
       />
-    </>
+      <ConfirmDeleteOrder
+        isOpen={isConfirmDelete}
+        label={dataSelected?.code}
+        handleRefetch={handleReload}
+        idDelete={dataSelected?._id || ''}
+      />
+    </OrderProvider>
   )
 }

@@ -4,12 +4,16 @@ export const UNIT_OPTIONS = [
         label: "Kg"
     },
     {
-        value: "bao",
+        value: "bag",
         label: "Bao"
     },
     {
-        value: "goi",
+        value: "package",
         label: "Gói"
+    },
+    {
+        value: "box",
+        label: "Hộp"
     },
 
 ]

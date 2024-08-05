@@ -91,6 +91,15 @@ export function DataTableProduct({}: Props) {
       },
     },
     {
+      title: 'Trọng lượng',
+      dataIndex: 'weight',
+      key: 'weight',
+
+      render: (_, { weight }) => {
+        return <div>{parseNumber(weight)}</div>
+      },
+    },
+    {
       title: 'Đơn vị',
       dataIndex: 'unit',
       key: 'unit',

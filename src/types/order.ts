@@ -4,17 +4,46 @@ import { IProduct } from "./product";
 export interface IOrder extends BaseProps {
     status: string,
     orderBy: string,
-    total: number,
-    products: IOrderProduct[]
+    items: IOrderProduct[]
     code: string,
+    totalCost: number | string,
+    buyerName: string,
+    buyerAddress: string,
+    buyerPhone: string,
+    paymentMethod: string,
+    coupon: string,
 }
 export interface IOrderProduct {
-    color: string;
-    count: string;
-    size: string;
+    quantity: number,
+    salePrice: number,
     _id: string;
-    product: IProduct
+    productId: IProduct
+    weight?: number
+    unit?: string
 }
+
+
+export interface IProductAddOrder {
+    productId: string
+    quantity: number
+    salePrice: number
+    weight?: number
+    unit?: string
+    productLabel?: string
+}
+export const PAYMENT_METHOD_ORDER = [
+    {
+        label: "Tiền mặt",
+        value: "cost",
+
+    },
+    {
+        label: "Chuyển khoản",
+        value: "banking",
+
+    },
+
+]
 export const STATUS_ORDER = [
     {
         label: "Chờ duyệt đơn",
