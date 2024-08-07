@@ -17,6 +17,7 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md'
 import { IProduct } from '@/types/product'
 import { deleteProduct, getProducts } from '@/actions/product.action'
 import { CreateUpdateProductForm } from './CreateUpdateProductForm'
+import UnitRow from '@/components/shared/common/UnitRow'
 
 type Props = {}
 
@@ -103,6 +104,9 @@ export function DataTableProduct({}: Props) {
       title: 'Đơn vị',
       dataIndex: 'unit',
       key: 'unit',
+      render: (_, { unit }) => {
+        return <UnitRow unit={unit} />
+      },
     },
     {
       title: 'Ngày tạo',

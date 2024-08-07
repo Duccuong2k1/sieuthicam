@@ -50,26 +50,28 @@ export function DataTableOrder({}: Props) {
 
   const handleMenuClick: MenuProps['onClick'] = async (e) => {
     if (dataSelected?._id) {
-      if (e.key === 'Cancelled') {
-        setIsConfirmDelete(true)
-        return
+      // if (e.key === 'Cancelled') {
+      //   setIsConfirmDelete(true)
+      //   return
+      // } else {
+
+      if (dataSelected?.status === 'Delivered' && e.key === 'Cancelled') {
+        toast.error('Không thể huỷ đơn hàng đang giao hàng.')
+      } else if (dataSelected.status === 'Shipped') {
+        toast.error('Không thể thay đổi trạng thái của đơn hàng đã giao hàng.')
       } else {
-        if (dataSelected.status === 'Shipped') {
-          toast.error('Không thể thay đổi trạng thái của đơn hàng đã giao hàng.')
-          return
-        } else {
-          try {
-            console.log('run oi data table')
-            await updateStatusOrder(dataSelected?._id, e.key)
-            toast.success('Cập nhật trạng thái đơn thành công')
-            handleReload()
-          } catch (err) {
-            console.log('err update status', err)
-            toast.error('Cập nhật trạng thái đơn thất bại')
-            setIsConfirmDelete(false)
-          }
+        try {
+          console.log('run oi data table')
+          await updateStatusOrder(dataSelected?._id, e.key)
+          toast.success('Cập nhật trạng thái đơn thành công')
+          handleReload()
+        } catch (err) {
+          console.log('err update status', err)
+          toast.error('Cập nhật trạng thái đơn thất bại')
+          setIsConfirmDelete(false)
         }
       }
+      // }
     }
   }
   useEffect(() => {
@@ -136,7 +138,12 @@ export function DataTableOrder({}: Props) {
       key: 'action',
       render: (_, record) => (
         <Space size="small">
-          <Dropdown menu={menuProps} trigger={['click']} onOpenChange={() => setDataSelected(record)}>
+          <Dropdown
+            menu={menuProps}
+            trigger={['click']}
+            onOpenChange={() => setDataSelected(record)}
+            disabled={record?.status === 'Cancelled'}
+          >
             <Button>
               <Space>
                 Cập nhật đơn hàng
@@ -171,7 +178,6 @@ export function DataTableOrder({}: Props) {
       ),
     },
   ]
-  console.log('data selected', dataSelected)
   const handleDeleteItem = useCallback(async ({ idDelete }: { idDelete: string }) => {
     if (idDelete) {
       const res = await deleteOrder(idDelete)
