@@ -1,48 +1,48 @@
-import { getUserList } from "@/actions/user.action";
-import { IUser } from "@/types/user";
-import { createContext, useContext, useEffect, useState } from "react";
+import { getUserList } from '@/actions/user.action'
+import { IUser } from '@/types/user'
+import { createContext, useContext, useEffect, useState } from 'react'
 
 export const UserContext = createContext<
   Partial<{
-    users: IUser[];
-    setUsers: (users: IUser[]) => void;
-    isLoadingData: boolean;
-    setIsLoadingData: (isLoadingData: boolean) => void;
-    refreshUserList: () => void;
+    users: IUser[]
+    setUsers: (users: IUser[]) => void
+    isLoadingData: boolean
+    setIsLoadingData: (isLoadingData: boolean) => void
+    refreshUserList: () => void
   }>
->({});
+>({})
 
 export function UserProvider({ ...props }) {
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
+  const [users, setUsers] = useState<IUser[]>([])
+  const [isLoadingData, setIsLoadingData] = useState<boolean>(false)
 
   const fetchUserList = async () => {
-    setIsLoadingData(true);
+    setIsLoadingData(true)
     try {
-      const res = await getUserList();
+      const res = await getUserList({ page: 1, pageSize: 1000 })
       if (res && res.success) {
-        setUsers(res.data);
+        setUsers(res.data)
       }
     } catch (err) {
-      console.log("Error fetching user list:", err);
+      console.log('Error fetching user list:', err)
     } finally {
-      setIsLoadingData(false);
+      setIsLoadingData(false)
     }
-  };
+  }
 
   useEffect(() => {
     if (isLoadingData) {
-      fetchUserList();
+      fetchUserList()
     }
-  }, [isLoadingData]);
+  }, [isLoadingData])
 
   const refreshUserList = () => {
-    setIsLoadingData(true);
-  };
+    setIsLoadingData(true)
+  }
 
   useEffect(() => {
-    refreshUserList();
-  }, []);
+    refreshUserList()
+  }, [])
   return (
     <UserContext.Provider
       value={{
@@ -55,7 +55,7 @@ export function UserProvider({ ...props }) {
     >
       {props.children}
     </UserContext.Provider>
-  );
+  )
 }
 
-export const useUserContext = () => useContext(UserContext);
+export const useUserContext = () => useContext(UserContext)
