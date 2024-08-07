@@ -79,7 +79,7 @@ const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
   const productOptions = useMemo(() => {
     return products?.map((item: any) => ({
       value: item?._id,
-      label: item?.title,
+      label: `${item?.title} - ${item.code}`,
     }))
   }, [products?.length])
 
