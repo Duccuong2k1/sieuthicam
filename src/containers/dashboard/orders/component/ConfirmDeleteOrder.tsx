@@ -13,7 +13,6 @@ type ConfirmDeleteOrderProps = {
 export function ConfirmDeleteOrder({ isOpen, label, handleRefetch, idDelete }: ConfirmDeleteOrderProps) {
   const [isShowDialog, setIsShowDialog] = useState(isOpen)
   const toast = useToast()
-  console.log('open ', isOpen, isShowDialog)
 
   //   useEffect(() => {
   //     if (isOpen) {
@@ -36,7 +35,7 @@ export function ConfirmDeleteOrder({ isOpen, label, handleRefetch, idDelete }: C
   return (
     <Modal centered width={300} open={isShowDialog} onClose={handleClose} footer={null} closable={false}>
       <div style={{ textAlign: 'center' }}>
-        <div className="font-medium mb-2 text-lg">Bạn chắc chắn muốn huỷ đơn này "{label}"</div>
+        <div className="font-medium mb-2 text-lg">Bạn chắc chắn muốn huỷ đơn này {label}</div>
         <div className="flex flex-row items-center justify-around">
           <Button type="default" onClick={handleClose}>
             Đóng
