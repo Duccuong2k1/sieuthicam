@@ -78,7 +78,7 @@ export function CreateUpdateBrandForm({ open, updateValue, onCancel, onRefetchin
           background: '#1a94c4',
         },
       }}
-      cancelText="Cancel"
+      cancelText="Huỷ"
       onCancel={() => {
         form.resetFields()
         resetFieldForm()

@@ -33,7 +33,7 @@ export function ShowDetailOrderDialog({ open, detailItem, onCancel }: Collection
           background: '#1a94c4',
         },
       }}
-      cancelText="Cancel"
+      cancelText="Huỷ"
       onCancel={() => {
         onCancel()
       }}

@@ -85,36 +85,36 @@ export function DataTableImportHistory({}: Props) {
       },
     },
 
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_, record) => (
-        <Space size="small">
-          <Button
-            onClick={() => {
-              setIsOpenDialogForm(true)
-              setDataSelected(record)
-            }}
-            icon={<BiPencil />}
-          ></Button>
-          <Popconfirm
-            title="Xoá đơn này "
-            description="Bạn chắc chắn muốn xoá đơn này?"
-            icon={<QuestionCircleOutlined />}
-            onConfirm={() => {
-              if (record._id) {
-                handleDeleteItem({ idDelete: record._id })
-              }
-            }}
-            // color="volcano"
-            okButtonProps={{ danger: true }}
-            okText="Xác nhận"
-          >
-            <Button danger icon={<RiDeleteBin6Line />} className="" />
-          </Popconfirm>
-        </Space>
-      ),
-    },
+    // {
+    //   title: 'Action',
+    //   key: 'action',
+    //   render: (_, record) => (
+    //     <Space size="small">
+    //       <Button
+    //         onClick={() => {
+    //           setIsOpenDialogForm(true)
+    //           setDataSelected(record)
+    //         }}
+    //         icon={<BiPencil />}
+    //       ></Button>
+    //       <Popconfirm
+    //         title="Xoá đơn này "
+    //         description="Bạn chắc chắn muốn xoá đơn này?"
+    //         icon={<QuestionCircleOutlined />}
+    //         onConfirm={() => {
+    //           if (record._id) {
+    //             handleDeleteItem({ idDelete: record._id })
+    //           }
+    //         }}
+    //         // color="volcano"
+    //         okButtonProps={{ danger: true }}
+    //         okText="Xác nhận"
+    //       >
+    //         <Button danger icon={<RiDeleteBin6Line />} className="" />
+    //       </Popconfirm>
+    //     </Space>
+    //   ),
+    // },
   ]
   const handleDeleteItem = useCallback(async ({ idDelete }: { idDelete: string }) => {
     if (idDelete) {

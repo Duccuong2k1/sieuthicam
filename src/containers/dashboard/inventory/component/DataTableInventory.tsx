@@ -84,7 +84,7 @@ export function DataTableInventory({}: Props) {
             }}
             icon={<MdOutlineRemoveRedEye />}
           ></Button>
-          <Popconfirm
+          {/* <Popconfirm
             title="Xoá đơn này "
             description="Bạn chắc chắn muốn xoá đơn này?"
             icon={<QuestionCircleOutlined />}
@@ -98,7 +98,7 @@ export function DataTableInventory({}: Props) {
             okText="Xác nhận"
           >
             <Button danger icon={<RiDeleteBin6Line />} className="" />
-          </Popconfirm>
+          </Popconfirm> */}
         </Space>
       ),
     },

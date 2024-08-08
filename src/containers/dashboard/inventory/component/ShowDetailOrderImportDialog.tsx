@@ -24,7 +24,7 @@ export function ShowDetailOrderImportDialog({ open, detailItem, onCancel }: Coll
           background: '#1a94c4',
         },
       }}
-      cancelText="Cancel"
+      cancelText="Huỷ"
       onCancel={() => {
         onCancel()
       }}

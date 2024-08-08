@@ -46,7 +46,7 @@ export function LoginDashboard({}: Props) {
           </Form.Item>
 
           <Button type="primary" htmlType="submit" className="w-full bg-primary" loading={loading}>
-            Log in
+            Đăng nhập
           </Button>
         </Form>
       </div>

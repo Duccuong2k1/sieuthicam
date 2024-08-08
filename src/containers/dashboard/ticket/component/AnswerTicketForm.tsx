@@ -1,53 +1,47 @@
+import { useToast } from '@/libs/providers/toast-provider'
+import { Form, Input, Modal } from 'antd'
 
-import { useToast } from "@/libs/providers/toast-provider";
-import { Form, Input, Modal } from "antd";
-
-import { ITicket } from "@/types/ticket";
-import { answerRequestTicket } from "@/actions/ticket.action";
+import { ITicket } from '@/types/ticket'
+import { answerRequestTicket } from '@/actions/ticket.action'
 
 interface Values {
-  title: string;
-  description: string;
-  modifier: string;
+  title: string
+  description: string
+  modifier: string
 }
 interface CollectionCreateFormProps {
-  open: boolean;
-  onCancel: () => void;
-  updateValue: ITicket | null;
-  onRefetchingTable: () => void;
+  open: boolean
+  onCancel: () => void
+  updateValue: ITicket | null
+  onRefetchingTable: () => void
 }
 
-export function AnswerTicketForm({
-  open,
-  onCancel,
-  onRefetchingTable,
-  updateValue,
-}: CollectionCreateFormProps) {
-  const [form] = Form.useForm();
-  const toast = useToast();
+export function AnswerTicketForm({ open, onCancel, onRefetchingTable, updateValue }: CollectionCreateFormProps) {
+  const [form] = Form.useForm()
+  const toast = useToast()
 
   const onCreate = async (values: any) => {
     if (updateValue) {
       try {
-        const res = await answerRequestTicket(updateValue?._id, values);
+        const res = await answerRequestTicket(updateValue?._id, values)
         if (res && res.success) {
-          toast.success("Phản hồi thành công thành công");
-          onCancel();
-          onRefetchingTable();
+          toast.success('Phản hồi thành công thành công')
+          onCancel()
+          onRefetchingTable()
         }
       } catch (err) {
-        toast.error("Phản hồi thành công thất bai");
-        console.log("error required answer ticket", err);
+        toast.error('Phản hồi thành công thất bai')
+        console.log('error required answer ticket', err)
       }
     }
-  };
+  }
 
   const resetFieldForm = () => {
     return {
-      message: "",
-      description:""
-    };
-  };
+      message: '',
+      description: '',
+    }
+  }
 
   return (
     <Modal
@@ -56,43 +50,34 @@ export function AnswerTicketForm({
       okText={`Xác nhận`}
       okButtonProps={{
         style: {
-          background: "#1a94c4",
+          background: '#1a94c4',
         },
       }}
-      cancelText="Cancel"
+      cancelText="Huỷ"
       onCancel={() => {
-        form.resetFields();
-        resetFieldForm();
-        onCancel();
+        form.resetFields()
+        resetFieldForm()
+        onCancel()
       }}
       onOk={() => {
         form
           .validateFields()
           .then((values) => {
-            form.resetFields();
-            onCreate(values);
+            form.resetFields()
+            onCreate(values)
           })
           .catch((info) => {
-            console.log("Validate Failed:", info);
-          });
+            console.log('Validate Failed:', info)
+          })
       }}
       afterOpenChange={(open) => {
         if (open) {
-          form.setFieldsValue(updateValue || resetFieldForm());
+          form.setFieldsValue(updateValue || resetFieldForm())
         }
       }}
     >
-      <Form
-        form={form}
-        layout="vertical"
-        name="form_in_modal"
-        initialValues={updateValue || resetFieldForm()}
-      >
-        <Form.Item
-          name="description"
-          label="Mô tả "
-          
-        >
+      <Form form={form} layout="vertical" name="form_in_modal" initialValues={updateValue || resetFieldForm()}>
+        <Form.Item name="description" label="Mô tả ">
           <Input disabled={!!updateValue?._id} />
         </Form.Item>
         <Form.Item
@@ -101,7 +86,7 @@ export function AnswerTicketForm({
           rules={[
             {
               required: true,
-              message: "Vui lòng không để trống vào trả lời",
+              message: 'Vui lòng không để trống vào trả lời',
             },
           ]}
         >
@@ -109,5 +94,5 @@ export function AnswerTicketForm({
         </Form.Item>
       </Form>
     </Modal>
-  );
+  )
 }

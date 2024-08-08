@@ -76,6 +76,7 @@ export function CreateUpdateInventoryForm({
       footer={
         <div className="flex flex-row justify-end">
           <Button
+            disabled={isSubmit}
             type="primary"
             onClick={() => {
               setIsSubmit(true)
