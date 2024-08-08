@@ -121,6 +121,8 @@ const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
             options={productOptions}
             loading={isLoading}
             allowClear
+            optionFilterProp="label"
+            showSearch
           />
         ) : (
           //   <Input ref={inputRef} onPressEnter={save} onBlur={save} type="number" fo />
@@ -225,7 +227,7 @@ const AddProductToOrder = ({
       render: (_, record) =>
         dataSource.length >= 1 ? (
           <Popconfirm
-            title="Sure to delete?"
+            title="Bạn chắc chắn muốn xoá sản phẩm này?"
             onConfirm={() => handleDelete(record.key)}
             okButtonProps={{ danger: true }}
             okText="Xác nhận"

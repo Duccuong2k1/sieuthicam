@@ -1,74 +1,74 @@
-import { registerAccount } from "@/actions/auth.action";
-import { useToast } from "@/libs/providers/toast-provider";
-import { Form, Input, Modal, Radio } from "antd";
-import { useUserContext } from "../provider/user-provider";
-import { IUser } from "@/types/user";
-import { useMemo } from "react";
-import {  updateUserByAdmin } from "@/actions/user.action";
+import { registerAccount } from '@/actions/auth.action'
+import { useToast } from '@/libs/providers/toast-provider'
+import { Form, Input, Modal, Radio } from 'antd'
+import { useUserContext } from '../provider/user-provider'
+import { IUser } from '@/types/user'
+import { useMemo } from 'react'
+import { updateUserByAdmin } from '@/actions/user.action'
 
 interface Values {
-  title: string;
-  description: string;
-  modifier: string;
+  title: string
+  description: string
+  modifier: string
 }
 interface CollectionCreateFormProps {
-  open: boolean;
-  onCancel: () => void;
-  updateValueUser: IUser | null;
-  onRefetchingTable: () => void;
+  open: boolean
+  onCancel: () => void
+  updateValueUser: IUser | null
+  onRefetchingTable: () => void
 }
 
 export function CreateUpdateUserForm({
   open,
   updateValueUser,
   onCancel,
-  onRefetchingTable
+  onRefetchingTable,
 }: CollectionCreateFormProps) {
-  const [form] = Form.useForm();
-  const toast = useToast();
-  const { refreshUserList } = useUserContext();
+  const [form] = Form.useForm()
+  const toast = useToast()
+  const { refreshUserList } = useUserContext()
 
   const labelForm = useMemo(() => {
-    return updateValueUser ? "Cập nhật" : "Tạo";
-  }, [updateValueUser]);
+    return updateValueUser ? 'Cập nhật' : 'Tạo'
+  }, [updateValueUser])
 
   const onCreate = async (values: any) => {
     if (updateValueUser) {
       try {
-        const res = await updateUserByAdmin(updateValueUser._id,values);
+        const res = await updateUserByAdmin(updateValueUser._id, values)
         if (res && res.success) {
-          toast.success("Cập nhật tài khoản thành công");
-          onCancel();
-          onRefetchingTable();
+          toast.success('Cập nhật tài khoản thành công')
+          onCancel()
+          onRefetchingTable()
         }
       } catch (err) {
-        toast.error("Cập nhật tài khoản thất bai");
-        console.log("error create user", err);
+        toast.error('Cập nhật tài khoản thất bai')
+        console.log('error create user', err)
       }
     } else {
       try {
-        const res = await registerAccount(values);
+        const res = await registerAccount(values)
         if (res && res.success) {
-          toast.success("Tạo tài khoản thành công");
-          onCancel();
-          onRefetchingTable();
+          toast.success('Tạo tài khoản thành công')
+          onCancel()
+          onRefetchingTable()
         }
       } catch (err) {
-        toast.error("Tạo tài khoản thất bai");
-        console.log("error create user", err);
+        toast.error('Tạo tài khoản thất bai')
+        console.log('error create user', err)
       }
     }
-  };
+  }
   const resetFieldForm = () => {
     return {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      password: "",
-      role: "user",
-    };
-  };
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      password: '',
+      role: 'user',
+    }
+  }
 
   return (
     <Modal
@@ -77,45 +77,40 @@ export function CreateUpdateUserForm({
       okText={`${labelForm}`}
       okButtonProps={{
         style: {
-          background: "#1a94c4",
+          background: '#1a94c4',
         },
       }}
-      cancelText="Cancel"
+      cancelText="Huỷ"
       onCancel={() => {
-        form.resetFields();
-        resetFieldForm();
-        onCancel();
+        form.resetFields()
+        resetFieldForm()
+        onCancel()
       }}
       onOk={() => {
         form
           .validateFields()
           .then((values) => {
-            form.resetFields();
-            onCreate(values);
+            form.resetFields()
+            onCreate(values)
           })
           .catch((info) => {
-            console.log("Validate Failed:", info);
-          });
+            console.log('Validate Failed:', info)
+          })
       }}
       afterOpenChange={(open) => {
         if (open) {
-          form.setFieldsValue(updateValueUser || resetFieldForm());
+          form.setFieldsValue(updateValueUser || resetFieldForm())
         }
       }}
     >
-      <Form
-        form={form}
-        layout="vertical"
-        name="form_in_modal"
-        initialValues={updateValueUser || resetFieldForm()}
-      >
+      <Form form={form} layout="vertical" name="form_in_modal" initialValues={updateValueUser || resetFieldForm()}>
         <Form.Item
           name="firstName"
           label="Tên"
           rules={[
             {
               required: true,
-              message: "Vui lòng không để trống tên",
+              message: 'Vui lòng không để trống tên',
             },
           ]}
         >
@@ -127,7 +122,7 @@ export function CreateUpdateUserForm({
           rules={[
             {
               required: true,
-              message: "Vui lòng không để trống họ",
+              message: 'Vui lòng không để trống họ',
             },
           ]}
         >
@@ -139,7 +134,7 @@ export function CreateUpdateUserForm({
           rules={[
             {
               required: true,
-              message: "Vui lòng không để trống email",
+              message: 'Vui lòng không để trống email',
             },
           ]}
         >
@@ -151,7 +146,7 @@ export function CreateUpdateUserForm({
           rules={[
             {
               required: true,
-              message: "Vui lòng không để trống SĐT",
+              message: 'Vui lòng không để trống SĐT',
             },
           ]}
         >
@@ -164,7 +159,7 @@ export function CreateUpdateUserForm({
             rules={[
               {
                 required: true,
-                message: "Vui lòng không để trống Mật này",
+                message: 'Vui lòng không để trống Mật này',
               },
             ]}
           >
@@ -174,10 +169,7 @@ export function CreateUpdateUserForm({
         {/* <Form.Item name="address" label="Địa chỉ">
           <Input type="textarea" />
         </Form.Item> */}
-        <Form.Item
-          name="role"
-          className="collection-create-form_last-form-item"
-        >
+        <Form.Item name="role" className="collection-create-form_last-form-item">
           <Radio.Group>
             <Radio value="admin">Admin</Radio>
             <Radio value="user">User</Radio>
@@ -185,5 +177,5 @@ export function CreateUpdateUserForm({
         </Form.Item>
       </Form>
     </Modal>
-  );
+  )
 }

@@ -68,7 +68,7 @@ export function CreateUpdateCategoryBlogForm({
           background: '#1a94c4',
         },
       }}
-      cancelText="Cancel"
+      cancelText="Huỷ"
       onCancel={() => {
         form.resetFields()
         resetFieldForm()

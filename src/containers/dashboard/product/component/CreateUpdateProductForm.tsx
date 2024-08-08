@@ -126,7 +126,7 @@ export function CreateUpdateProductForm({ open, updateValue, onCancel, onRefetch
         title={`${labelForm} sản phẩm`}
         okText={`${labelForm}`}
         okButtonProps={{ style: { background: '#1a94c4' }, loading: isLoadingForm }}
-        cancelText="Cancel"
+        cancelText="Huỷ"
         onCancel={() => {
           form.resetFields()
           resetFieldForm()
@@ -155,7 +155,7 @@ export function CreateUpdateProductForm({ open, updateValue, onCancel, onRefetch
             <div className="col-span-2">
               <Form.Item
                 name="title"
-                label="Tiêu đề"
+                label="Tên sản phẩm"
                 rules={[
                   {
                     required: true,
@@ -189,6 +189,8 @@ export function CreateUpdateProductForm({ open, updateValue, onCancel, onRefetch
                     value: cate._id,
                     label: cate.title,
                   }))}
+                  optionFilterProp="label"
+                  showSearch
                 />
               </Form.Item>
 
@@ -217,12 +219,12 @@ export function CreateUpdateProductForm({ open, updateValue, onCancel, onRefetch
               <Form.Item
                 name="description"
                 label="Mô tả sản phẩm"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Vui lòng không để trống Mô tả sản phẩm',
-                  },
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: 'Vui lòng không để trống Mô tả sản phẩm',
+                //   },
+                // ]}
                 valuePropName="value"
                 getValueFromEvent={(content) => content}
               >

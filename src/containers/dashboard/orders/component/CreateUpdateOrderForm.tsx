@@ -1,11 +1,10 @@
 'use client'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { Button, Drawer, Form, Input, Modal, Radio, Select } from 'antd'
 import { IOrder, PAYMENT_METHOD_ORDER } from '@/types/order'
 import { useToast } from '@/libs/providers/toast-provider'
-import AddProductToOrderTable from './AddProductToOrderTable'
-import { parseNumber } from '@/libs/helpers/parser'
+
 import { createOrderByAdmin } from '@/actions/order.action'
 import { AddProductToOrderDialog } from './AddProductToOrderDialog'
 import OrderItemsTable from './OrderItemsTable'
@@ -22,7 +21,6 @@ export function CreateUpdateOrderForm({ open, updateValue, onCancel, onRefetchin
   const [form] = Form.useForm()
   const toast = useToast()
   const [isSubmit, setIsSubmit] = useState(false)
-  const [totalCost, setTotalCost] = useState<number>(0)
 
   const [openAddProduct, setOpenAddProduct] = useState(false)
   const { productAddOrderList, setProductAddOrderList } = useOrder()
@@ -49,6 +47,7 @@ export function CreateUpdateOrderForm({ open, updateValue, onCancel, onRefetchin
         //   console.log("error create user", err);
         // }
       } else {
+        setIsSubmit(true)
         try {
           const productOrderItems = productAddOrderList?.map((item) => {
             return {
@@ -76,6 +75,8 @@ export function CreateUpdateOrderForm({ open, updateValue, onCancel, onRefetchin
         } catch (err) {
           toast.error('Tạo đơn thất bai')
           console.log('error create order', err)
+        } finally {
+          setIsSubmit(false)
         }
       }
     }
@@ -120,6 +121,7 @@ export function CreateUpdateOrderForm({ open, updateValue, onCancel, onRefetchin
         footer={
           <div className="flex flex-row justify-end">
             <Button
+              disabled={isSubmit}
               type="primary"
               onClick={() => {
                 form
