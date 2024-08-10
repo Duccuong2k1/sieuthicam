@@ -1,9 +1,10 @@
 'use client'
 
-import { Table } from 'antd'
-import React, { useImperativeHandle, forwardRef, useCallback, useState } from 'react'
+import { Select, Table } from 'antd'
+import React, { useImperativeHandle, forwardRef, useCallback, useState, useId, useMemo } from 'react'
 import { TableFilterHeader } from './TableFilterHeader'
 import { usePagination } from '@/libs/hooks/usePagination'
+import { PAYMENT_METHOD_ORDER } from '@/types/order'
 
 interface AnyObject {
   [key: string]: any
@@ -31,7 +32,7 @@ const DataTableContext = <T extends AnyObject>(
     page: 1,
     pageSize: 10,
   })
-
+  const id = useId()
   const handleSearch = useCallback((value: string) => {
     console.log('Search query:', value)
     setParams({
@@ -52,7 +53,10 @@ const DataTableContext = <T extends AnyObject>(
   return (
     <>
       {isFilter && <TableFilterHeader onSearch={handleSearch} placeholder={textPlaceholder} />}
+
       <Table
+        key={id}
+        rowKey={(record) => record?._id || record?.id}
         columns={columns}
         dataSource={data || []}
         rowSelection={rowSelection}
@@ -68,6 +72,11 @@ const DataTableContext = <T extends AnyObject>(
             pageSize: pagination.pageSize || 10,
           })
         }
+        footer={() => (
+          <div className="font-medium">
+            Trang {params.page} / {params.pageSize} trong tổng {total}
+          </div>
+        )}
       />
     </>
   )

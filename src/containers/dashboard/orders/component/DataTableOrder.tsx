@@ -1,6 +1,6 @@
 'use client'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Button, Dropdown, MenuProps, Popconfirm, Space, Tag } from 'antd'
+import { Button, Dropdown, MenuProps, Popconfirm, Space, Tag, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { BiPencil } from 'react-icons/bi'
@@ -12,19 +12,18 @@ import { TableHeader } from '@/components/shared/table/TableHeader'
 import { formatDate, parseNumber } from '@/libs/helpers/parser'
 import DataTableContext, { DataTableContextRef } from '@/components/shared/table/DataTableContext'
 
-import { IOrder, STATUS_ORDER } from '@/types/order'
+import { IOrder, PAYMENT_METHOD_ORDER, STATUS_ORDER } from '@/types/order'
 import { deleteOrder, getOrdersByAdmin, updateStatusOrder } from '@/actions/order.action'
 import { CreateUpdateOrderForm } from './CreateUpdateOrderForm'
 import { MdOutlineRemoveRedEye } from 'react-icons/md'
 import { ShowDetailOrderDialog } from './ShowDetailOrderDialog'
 import { ConfirmDeleteOrder } from './ConfirmDeleteOrder'
-import { OrderProvider } from '@/libs/providers/order-provider'
+import { useOrder } from '@/libs/providers/order-provider'
 
 type Props = {}
 
 export function DataTableOrder({}: Props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-  const [isOpenDialogForm, setIsOpenDialogForm] = useState(false)
   const [isOpenDetailDialog, setIsOpenDetailDialog] = useState(false)
   const [isConfirmDelete, setIsConfirmDelete] = useState(false)
 
@@ -32,6 +31,7 @@ export function DataTableOrder({}: Props) {
 
   const [dataSelected, setDataSelected] = useState<IOrder | null>(null)
   const toast = useToast()
+  const { isOpenDialogForm, setIsOpenDialogForm } = useOrder()
 
   const handleReload = () => {
     tableRef.current?.reloadTable()
@@ -101,14 +101,26 @@ export function DataTableOrder({}: Props) {
       key: 'code',
     },
     {
-      title: 'Ngày tạo đơn',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      sorter: (a, b) => +a.createdAt - +b.createdAt,
-      render: (_, { createdAt }) => {
-        return <div>{formatDate(createdAt, 'dd/MM/yyyy HH:mm')}</div>
+      title: 'Người mua - SĐT',
+      dataIndex: 'buyer',
+      key: 'buyer',
+
+      render: (_, { buyerName, buyerPhone, paymentMethod }) => {
+        return (
+          <div className="flex flex-col gap-y-1">
+            <span>
+              {buyerName} - {buyerPhone}
+            </span>
+            <span>
+              <Tag color={paymentMethod === 'debit' ? 'red' : 'cyan'}>
+                {PAYMENT_METHOD_ORDER?.find((item) => item.value === paymentMethod)?.label}
+              </Tag>
+            </span>
+          </div>
+        )
       },
     },
+
     {
       title: 'Tổng tiền',
       dataIndex: 'totalCost',
@@ -132,6 +144,15 @@ export function DataTableOrder({}: Props) {
         </>
       ),
     },
+    {
+      title: 'Ngày tạo đơn',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      sorter: (a, b) => +a.createdAt - +b.createdAt,
+      render: (_, { createdAt }) => {
+        return <div>{formatDate(createdAt, 'dd/MM/yyyy HH:mm')}</div>
+      },
+    },
 
     {
       title: 'Action',
@@ -151,14 +172,15 @@ export function DataTableOrder({}: Props) {
               </Space>
             </Button>
           </Dropdown>
-
-          <Button
-            onClick={() => {
-              setDataSelected(record)
-              setIsOpenDetailDialog(true)
-            }}
-            icon={<MdOutlineRemoveRedEye />}
-          ></Button>
+          <Tooltip title="Xem chi tiết đơn" placement="rightTop" color={'info'} key={'info'}>
+            <Button
+              onClick={() => {
+                setDataSelected(record)
+                setIsOpenDetailDialog(true)
+              }}
+              icon={<MdOutlineRemoveRedEye />}
+            ></Button>
+          </Tooltip>
           {/* <Popconfirm
             title="Xoá Đơn hàng "
             description="Bạn chắc chắn muốn xoá Đơn hàng này?"
@@ -189,7 +211,7 @@ export function DataTableOrder({}: Props) {
   }, [])
 
   return (
-    <OrderProvider>
+    <>
       <TableHeader
         handleRefetch={handleReload}
         label="đơn "
@@ -204,6 +226,7 @@ export function DataTableOrder({}: Props) {
         columns={columns}
         fetchDataResponse={getOrdersByAdmin}
         rowSelection={rowSelection}
+        textPlaceholder="Tìm kiếm (tên người mua,sdt, mã sp)..."
       />
       <CreateUpdateOrderForm
         open={isOpenDialogForm}
@@ -223,6 +246,6 @@ export function DataTableOrder({}: Props) {
         handleRefetch={handleReload}
         idDelete={dataSelected?._id || ''}
       />
-    </OrderProvider>
+    </>
   )
 }

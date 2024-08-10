@@ -6,6 +6,8 @@ interface OrderContextType {
   productAddOrderList: IProductAddOrder[]
   setProductAddOrder: (order: IProductAddOrder) => void
   setProductAddOrderList: (orders: IProductAddOrder[]) => void
+  isOpenDialogForm: boolean
+  setIsOpenDialogForm: (isOpen: any) => void
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined)
@@ -13,12 +15,15 @@ const OrderContext = createContext<OrderContextType | undefined>(undefined)
 export const OrderProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [productAddOrder, setProductAddOrder] = useState<IProductAddOrder | null>(null)
   const [productAddOrderList, setProductAddOrderList] = useState<IProductAddOrder[]>([])
+  const [isOpenDialogForm, setIsOpenDialogForm] = useState(false)
 
   const value = {
     productAddOrder,
     productAddOrderList,
     setProductAddOrder,
     setProductAddOrderList,
+    isOpenDialogForm,
+    setIsOpenDialogForm,
   }
 
   return <OrderContext.Provider value={value}>{children}</OrderContext.Provider>

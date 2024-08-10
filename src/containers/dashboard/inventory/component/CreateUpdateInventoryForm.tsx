@@ -64,7 +64,7 @@ export function CreateUpdateInventoryForm({
     },
     [isSubmit],
   )
-  console.log('open form', open)
+
   return (
     <Drawer
       title={`Tạo đơn nhập hàng`}

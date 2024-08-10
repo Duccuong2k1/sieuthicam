@@ -12,7 +12,7 @@ interface CollectionCreateFormProps {
 
 export function ShowDetailOrderImportDialog({ open, detailItem, onCancel }: CollectionCreateFormProps) {
   const labelForm = `Chi tiết thông tin đơn hàng`
-  console.log('detail product', detailItem)
+
   return (
     <Modal
       width={800}

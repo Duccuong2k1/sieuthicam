@@ -4,6 +4,7 @@ import { SidebarNav } from '@/components/dashboard/sidebar/SidebarNav'
 import { isCheckUser } from '@/components/shared/common/isCheckUser'
 import { GLOBAL } from '@/libs/constants/global'
 import { AuthProvider } from '@/libs/providers/auth-provider'
+import { OrderProvider } from '@/libs/providers/order-provider'
 import ThemeProvider from '@/libs/providers/theme-ant-provider'
 import { useRouter } from 'next/navigation'
 
@@ -23,12 +24,14 @@ export default function DashboardLayout({
   }, [isCheckUser, router])
   return (
     <ThemeProvider>
-      <HeaderNav />
-      <section className="flex flex-row gap-3 justify-start min-h-screen w-full">
-        <SidebarNav />
+      <OrderProvider>
+        <HeaderNav />
+        <section className="flex flex-row gap-3 justify-start min-h-screen w-full">
+          <SidebarNav />
 
-        <div className="p-3 flex-1">{children}</div>
-      </section>
+          <div className="p-3 flex-1">{children}</div>
+        </section>
+      </OrderProvider>
     </ThemeProvider>
   )
 }

@@ -1,5 +1,6 @@
 'use client'
 import { useAuth } from '@/libs/providers/auth-provider'
+import { useOrder } from '@/libs/providers/order-provider'
 import { Button, Dropdown, MenuProps } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -13,6 +14,7 @@ type Props = {}
 export function HeaderNav({}: Props) {
   const router = useRouter()
   const { logout, admin } = useAuth()
+  const { setIsOpenDialogForm } = useOrder()
 
   const items: MenuProps['items'] = [
     {
@@ -25,17 +27,21 @@ export function HeaderNav({}: Props) {
     },
   ]
 
+  const handleQuickOrder = () => {
+    router.push('/dashboard/orders')
+    setIsOpenDialogForm(true)
+  }
+
   return (
     <div className="flex flex-row items-center justify-between px-5 py-3 bg-white z-10 shadow border-b sticky top-0 left-0 right-0">
       <Link href={'/'} className="flex flex-row items-center justify-start font-semibold text-lg">
         <span className="text-primary">Sieu thi cam</span> / Admin
       </Link>
       <div className="flex flex-row items-center gap-5">
-        <Link href="/dashboard/orders">
-          <Button className="bg-blue-500" type="primary" icon={<MdAddShoppingCart />}>
-            Tạo đơn hàng
-          </Button>
-        </Link>
+        <Button className="bg-blue-500" type="primary" icon={<MdAddShoppingCart />} onClick={handleQuickOrder}>
+          Tạo đơn hàng
+        </Button>
+
         <Button className="border-none text-lg">
           <FaBell />
         </Button>

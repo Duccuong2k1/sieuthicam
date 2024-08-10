@@ -23,4 +23,9 @@ const refetchAccessToken = async () => {
   return response.data;
 };
 
-export { loginAccount, registerAccount, refetchAccessToken }
+const logoutAccount = async () => {
+  const response = await axiosClient.post<CustomAxiosResponse<any>>(`${path}/logout`);
+  return response.data;
+};
+
+export { loginAccount, registerAccount, refetchAccessToken, logoutAccount }

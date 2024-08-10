@@ -20,14 +20,14 @@ export function SidebarNav({}: Props) {
   const pathName = usePathname()
   const navActive = pathName.split('/')
 
-  const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click ', e)
-  }
+  // const onClick: MenuProps['onClick'] = (e) => {
+  //   console.log('click ', e)
+  // }
 
   return (
     <div className="w-[256px]">
       <Menu
-        onClick={onClick}
+        // onClick={onClick}
         style={{ width: 256 }}
         className="h-full fixed left-0 top-14 overflow-y-auto w-auto"
         defaultSelectedKeys={[`${navActive?.[2]}`]}

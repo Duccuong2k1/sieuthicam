@@ -13,7 +13,7 @@ import {
 } from '../constants/get-value-storage'
 import { GLOBAL } from '../constants/global'
 import { jwtDecode } from 'jwt-decode'
-import { loginAccount, refetchAccessToken } from '@/actions/auth.action'
+import { loginAccount, logoutAccount, refetchAccessToken } from '@/actions/auth.action'
 import { IUser } from '@/types/user'
 import { getUserCurrent } from '@/actions/user.action'
 
@@ -41,14 +41,19 @@ export function AuthProvider({ ...props }) {
   const router = useRouter()
   const pathName = usePathname()
 
-  const logout = () => {
-    ClearValueToken(GLOBAL.ACCESS_TOKEN)
-    ClearValueLocalStorage(GLOBAL.ADMIN)
-    ClearValueLocalStorage(GLOBAL.USER)
+  const logout = async () => {
+    try {
+      await logoutAccount()
+      ClearValueToken(GLOBAL.ACCESS_TOKEN)
+      ClearValueLocalStorage(GLOBAL.ADMIN)
+      ClearValueLocalStorage(GLOBAL.USER)
 
-    setUser(null as any)
-    setAdmin(null as any)
-    router.push('/login')
+      setUser(null as any)
+      setAdmin(null as any)
+      router.push('/login')
+    } catch (error) {
+      console.log('Logout failed!!')
+    }
   }
 
   const loginAdmin = async (email: string, password: string) => {
