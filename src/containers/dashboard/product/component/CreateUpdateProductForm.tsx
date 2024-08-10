@@ -55,7 +55,6 @@ export function CreateUpdateProductForm({ open, updateValue, onCancel, onRefetch
     // const formatThumbnail = thumbnail[0]?.uid ? [thumbnail[0]?.url] : thumbnail
     // const formatImage = images.map((img) => (img?.uid ? img?.url : img))
     const dataPayload = { ...values, thumbnail: thumbnail, images: images }
-    console.log('data payload', dataPayload)
     try {
       let res
       if (updateValue) {
@@ -117,7 +116,6 @@ export function CreateUpdateProductForm({ open, updateValue, onCancel, onRefetch
     setImages(images.filter((image) => image !== url))
   }
 
-  console.log(thumbnail, 'thumbnail')
   return (
     <>
       <Modal

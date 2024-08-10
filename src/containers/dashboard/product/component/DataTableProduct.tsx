@@ -18,6 +18,7 @@ import { IProduct } from '@/types/product'
 import { deleteProduct, getProducts } from '@/actions/product.action'
 import { CreateUpdateProductForm } from './CreateUpdateProductForm'
 import UnitRow from '@/components/shared/common/UnitRow'
+import { cn } from '@/libs/utils'
 
 type Props = {}
 
@@ -52,24 +53,22 @@ export function DataTableProduct({}: Props) {
       key: 'code',
     },
     {
-      title: 'Hình ảnh',
-      dataIndex: 'thumbnail',
-      key: 'thumbnail',
-      render: (thumbnail) => (
-        <Image
-          src={thumbnail}
-          alt={'image '}
-          width={50}
-          className="object-cover rounded p-0.5 border cursor-pointer h-[50px]"
-          // onClick={() => setShowImage(img)}
-          height={50}
-        />
-      ),
-    },
-    {
       title: 'Tên sản phẩm',
-      dataIndex: 'title',
-      key: 'title',
+      dataIndex: 'product',
+      key: 'product',
+      render: (_, { thumbnail, title }) => (
+        <div className="flex flex-row items-center gap-2">
+          <Image
+            src={thumbnail}
+            alt={'image '}
+            width={50}
+            className="object-cover rounded p-0.5 border cursor-pointer h-[50px]"
+            // onClick={() => setShowImage(img)}
+            height={50}
+          />
+          <span>{title}</span>
+        </div>
+      ),
     },
 
     {
@@ -78,7 +77,7 @@ export function DataTableProduct({}: Props) {
       key: 'salePrice',
       sorter: (a, b) => a.salePrice - b.salePrice,
       render: (_, { salePrice }) => {
-        return <div>{parseNumber(salePrice, 'VND')}</div>
+        return <div className="text-blue-500">{parseNumber(salePrice, 'VND')}</div>
       },
     },
 
@@ -88,7 +87,17 @@ export function DataTableProduct({}: Props) {
       key: 'quantity',
       sorter: (a, b) => a.quantity - b.quantity,
       render: (_, { quantity }) => {
-        return <div>{parseNumber(quantity)}</div>
+        return (
+          <div>
+            <div className="flex flex-row items-center gap-x-3">
+              <div className={cn(quantity <= 3 ? ' text-red-500 font-medium' : 'text-green-500')}>
+                {parseNumber(quantity)}
+              </div>
+              {quantity <= 3 && <Tag color="red">Hết hàng</Tag>}
+            </div>
+            {quantity <= 3 && <span className="text-xs text-gray-600">Vui lòng nhập hàng</span>}
+          </div>
+        )
       },
     },
     {
@@ -97,7 +106,7 @@ export function DataTableProduct({}: Props) {
       key: 'weight',
 
       render: (_, { weight }) => {
-        return <div>{parseNumber(weight)}</div>
+        return <div className="text-center">{parseNumber(weight)}</div>
       },
     },
     {

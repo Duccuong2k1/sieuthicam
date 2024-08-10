@@ -1,6 +1,6 @@
 'use client'
 import React, { useCallback, useRef, useState } from 'react'
-import { Button, Popconfirm, Space } from 'antd'
+import { Button, Popconfirm, Space, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { BiPencil } from 'react-icons/bi'
@@ -78,12 +78,14 @@ export function DataTableInventory({}: Props) {
       key: 'action',
       render: (_, record) => (
         <Space size="small">
-          <Button
-            onClick={() => {
-              setIsOpenDetailDialog(record)
-            }}
-            icon={<MdOutlineRemoveRedEye />}
-          ></Button>
+          <Tooltip title="Xem chi tiết đơn" placement="rightTop" color={'info'} key={'info'}>
+            <Button
+              onClick={() => {
+                setIsOpenDetailDialog(record)
+              }}
+              icon={<MdOutlineRemoveRedEye />}
+            ></Button>
+          </Tooltip>
           {/* <Popconfirm
             title="Xoá đơn này "
             description="Bạn chắc chắn muốn xoá đơn này?"

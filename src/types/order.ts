@@ -42,6 +42,11 @@ export const PAYMENT_METHOD_ORDER = [
         value: "banking",
 
     },
+    {
+        label: "Ghi nợ",
+        value: "debit",
+
+    },
 
 ]
 export const STATUS_ORDER = [

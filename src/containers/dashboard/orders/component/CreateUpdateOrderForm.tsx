@@ -73,7 +73,7 @@ export function CreateUpdateOrderForm({ open, updateValue, onCancel, onRefetchin
             setProductAddOrderList([])
           }
         } catch (err) {
-          toast.error('Tạo đơn thất bai')
+          toast.error('Tạo đơn thất bại sản phẩm trong kho không đủ')
           console.log('error create order', err)
         } finally {
           setIsSubmit(false)
@@ -101,10 +101,10 @@ export function CreateUpdateOrderForm({ open, updateValue, onCancel, onRefetchin
   // )
   const resetFieldForm = () => {
     return {
-      title: '',
-      code: '',
-      discount: '',
-      expiry: '',
+      buyerName: '',
+      buyerPhone: '',
+      buyerAddress: '',
+      paymentMethod: '',
     }
   }
 
@@ -115,6 +115,7 @@ export function CreateUpdateOrderForm({ open, updateValue, onCancel, onRefetchin
         onClose={() => {
           onCancel()
           setProductAddOrderList([])
+          resetFieldForm()
         }}
         open={open}
         width={1000}
