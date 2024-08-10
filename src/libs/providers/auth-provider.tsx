@@ -43,7 +43,7 @@ export function AuthProvider({ ...props }) {
 
   const logout = async () => {
     try {
-      await logoutAccount()
+      // await logoutAccount()
       ClearValueToken(GLOBAL.ACCESS_TOKEN)
       ClearValueLocalStorage(GLOBAL.ADMIN)
       ClearValueLocalStorage(GLOBAL.USER)
