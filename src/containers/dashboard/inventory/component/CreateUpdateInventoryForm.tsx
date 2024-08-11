@@ -31,15 +31,22 @@ export function CreateUpdateInventoryForm({
     }
 
     try {
-      console.log('submit ', values)
-      const res = await createInventory(values)
+      const dataPayload = values.filter((item: any) => item.productId && item?.productId !== 'chon-san-pham')
+
+      if (dataPayload.length === 0) {
+        toast.error('Vui lòng chọn ít nhất một sản phẩm hợp lệ')
+        return
+      }
+
+      console.log('submit ', dataPayload)
+      const res = await createInventory(dataPayload)
       if (res && res.success) {
         toast.success('Tạo đơn nhập hàng thành công')
         onCancel()
         onRefetchingTable()
       }
     } catch (err) {
-      toast.error(`Tạo đơn nhập hàng thất bại`)
+      toast.error(`Tạo đơn nhập hàng thất bại, vui lòng chọn đầy đủ sản phẩm`)
       console.error(`Error Tạo đơn nhập hàng`, err)
     } finally {
       setIsSubmit(false)

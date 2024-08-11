@@ -169,7 +169,7 @@ const AddProductToOrder = ({
   const [dataSource, setDataSource] = useState<DataType[]>([
     {
       key: '0',
-      productId: { value: 'chon san pham', label: 'Chọn sản phẩm' },
+      productId: { value: 'chon-san-pham', label: 'Chọn sản phẩm' },
       quantity: 0,
       importPrice: 0,
       salePrice: 0,
@@ -241,7 +241,7 @@ const AddProductToOrder = ({
   const handleAdd = () => {
     const newData: DataType = {
       key: count,
-      productId: { value: 'chon san pham', label: 'Chọn sản phẩm' },
+      productId: { value: 'chon-san-pham', label: 'Chọn sản phẩm' },
       quantity: 0,
       salePrice: 0,
       importPrice: 0,
@@ -287,8 +287,9 @@ const AddProductToOrder = ({
   })
 
   useEffect(() => {
-    getValuePayload(dataSource)
-    const totalCost = dataSource.reduce((acc: number, item: any) => {
+    const dataResult = dataSource.filter((item: any) => item.productId && item?.productId !== 'chon-san-pham')
+    getValuePayload(dataResult)
+    const totalCost = dataResult.reduce((acc: number, item: any) => {
       return acc + item.quantity * item.importPrice
     }, 0)
     getTotalCost(totalCost)

@@ -97,6 +97,7 @@ export function AuthProvider({ ...props }) {
           setIsTokenExpired(true)
         }
       } else {
+        console.log('chay khi co token')
         setIsTokenExpired(false)
       }
     } else {
@@ -137,6 +138,8 @@ export function AuthProvider({ ...props }) {
         logout()
       }
     } else {
+      console.log('response chay khi false')
+
       loadInfoAdmin()
     }
   }, [isTokenExpired])
