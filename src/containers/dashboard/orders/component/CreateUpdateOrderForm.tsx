@@ -1,23 +1,24 @@
 'use client'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
-import { Button, Drawer, Form, Input, Modal, Radio, Select } from 'antd'
-import { IOrder, PAYMENT_METHOD_ORDER } from '@/types/order'
+import { Button, DatePicker, Drawer, Form, Input, Modal, Select } from 'antd'
+import { PAYMENT_METHOD_ORDER } from '@/types/order'
 import { useToast } from '@/libs/providers/toast-provider'
 
-import { createOrderByAdmin } from '@/actions/order.action'
 import { AddProductToOrderDialog } from './AddProductToOrderDialog'
 import OrderItemsTable from './OrderItemsTable'
 import { useOrder } from '@/libs/providers/order-provider'
-
+import locale from 'antd/es/date-picker/locale/vi_VN'
+import dayjs from 'dayjs'
+import { createOrderByAdmin } from '@/actions/order.action'
 interface CollectionCreateFormProps {
   open: boolean
   onCancel: () => void
-  updateValue: IOrder | null
+  // updateValue: IOrder | null
   onRefetchingTable: () => void
 }
 
-export function CreateUpdateOrderForm({ open, updateValue, onCancel, onRefetchingTable }: CollectionCreateFormProps) {
+export function CreateUpdateOrderForm({ open, onCancel, onRefetchingTable }: CollectionCreateFormProps) {
   const [form] = Form.useForm()
   const toast = useToast()
   const [isSubmit, setIsSubmit] = useState(false)
@@ -25,61 +26,69 @@ export function CreateUpdateOrderForm({ open, updateValue, onCancel, onRefetchin
   const [openAddProduct, setOpenAddProduct] = useState(false)
   const { productAddOrderList, setProductAddOrderList } = useOrder()
 
-  const labelForm = useMemo(() => {
-    return updateValue ? 'Cập nhật' : 'Tạo'
-  }, [updateValue])
+  // const labelForm = useMemo(() => {
+  //   return updateValue ? 'Cập nhật' : 'Tạo'
+  // }, [updateValue])
 
   const onCreate = async (values: any) => {
     if (productAddOrderList?.length <= 0) {
       toast.error('Vui lòng thêm sản phẩm mua')
     } else {
-      if (updateValue) {
-        // try {
-        console.log('update don hang')
-        //   const res = await updateCoupon(updateValue._id,values);
-        //   if (res && res.success) {
-        //     toast.success("Cập nhật khuyến mãi thành công");
-        //     onCancel();
-        //     onRefetchingTable();
-        //   }
-        // } catch (err) {
-        //   toast.error("Cập nhật khuyến mãi thất bai");
-        //   console.log("error create user", err);
-        // }
-      } else {
-        setIsSubmit(true)
-        try {
-          const productOrderItems = productAddOrderList?.map((item) => {
-            return {
-              productId: item.productId,
-              salePrice: item.salePrice,
-              quantity: item.quantity,
-              unit: item.unit,
-              weight: item.weight,
-            }
-          })
-          const dataPayload = {
-            ...values,
-            items: productOrderItems,
+      // if (updateValue) {
+      // try {
+      console.log('update don hang')
+      //   const res = await updateCoupon(updateValue._id,values);
+      //   if (res && res.success) {
+      //     toast.success("Cập nhật khuyến mãi thành công");
+      //     onCancel();
+      //     onRefetchingTable();
+      //   }
+      // } catch (err) {
+      //   toast.error("Cập nhật khuyến mãi thất bai");
+      //   console.log("error create user", err);
+      // }
+      // } else {
+      setIsSubmit(true)
+      try {
+        const productOrderItems = productAddOrderList?.map((item) => {
+          return {
+            productId: item.productId,
+            salePrice: item.salePrice,
+            quantity: item.quantity,
+            unit: item.unit,
+            weight: item.weight,
           }
-          console.log('values', dataPayload)
-          const res = await createOrderByAdmin(dataPayload)
-          if (res && res.success) {
-            toast.success('Tạo đơn thành công')
-            form.resetFields()
+        })
 
-            onCancel()
-            onRefetchingTable()
-            setProductAddOrderList([])
-          }
-        } catch (err) {
-          toast.error('Tạo đơn thất bại sản phẩm trong kho không đủ')
-          console.log('error create order', err)
-        } finally {
-          setIsSubmit(false)
+        const createdAt = values.createdAt
+          ? dayjs(values.createdAt).format('YYYY-MM-DDTHH:mm:ssZ')
+          : dayjs().format('YYYY-MM-DDTHH:mm:ssZ')
+
+        const dataPayload = {
+          ...values,
+          createdAt: createdAt,
+          items: productOrderItems,
         }
+        console.log('values', dataPayload)
+        console.log('values.createdAt', values.createdAt)
+
+        const res = await createOrderByAdmin(dataPayload)
+        if (res && res.success) {
+          toast.success('Tạo đơn thành công')
+          form.resetFields()
+
+          onCancel()
+          onRefetchingTable()
+          setProductAddOrderList([])
+        }
+      } catch (err) {
+        toast.error('Tạo đơn thất bại sản phẩm trong kho không đủ')
+        console.log('error create order', err)
+      } finally {
+        setIsSubmit(false)
       }
     }
+    // }
   }
 
   // const handleFormatPayload = useCallback(
@@ -99,23 +108,15 @@ export function CreateUpdateOrderForm({ open, updateValue, onCancel, onRefetchin
   //   },
   //   [isSubmit],
   // )
-  const resetFieldForm = () => {
-    return {
-      buyerName: '',
-      buyerPhone: '',
-      buyerAddress: '',
-      paymentMethod: '',
-    }
-  }
 
   return (
     <>
       <Drawer
-        title={`${labelForm} đơn`}
+        title={`Tạo đơn bán`}
         onClose={() => {
           onCancel()
           setProductAddOrderList([])
-          resetFieldForm()
+          form.resetFields()
         }}
         open={open}
         width={1000}
@@ -138,12 +139,12 @@ export function CreateUpdateOrderForm({ open, updateValue, onCancel, onRefetchin
               }}
               className="bg-blue-500"
             >
-              {labelForm} đơn
+              Tạo đơn
             </Button>
           </div>
         }
       >
-        <Form form={form} layout="vertical" name="form_in_modal" initialValues={updateValue || resetFieldForm()}>
+        <Form form={form} layout="vertical" name="form_in_modal" initialValues={{}}>
           <div className="grid grid-cols-2 gap-5">
             <Form.Item
               name="buyerName"
@@ -194,6 +195,19 @@ export function CreateUpdateOrderForm({ open, updateValue, onCancel, onRefetchin
               ]}
             >
               <Select options={PAYMENT_METHOD_ORDER} />
+            </Form.Item>
+          </div>
+          <div className="grid grid-cols-2 gap-5">
+            <Form.Item name="createdAt" label="Ngày tạo đơn" className="w-full">
+              {/* <DatePicker format="DD-MM-YYYY HH:MM" showTime className="w-full" /> */}
+              <DatePicker
+                locale={locale}
+                format="DD-MM-YYYY HH:MM"
+                showTime={{ format: 'HH:mm' }}
+                allowClear
+                alt="Chọn ngày tạo đơn"
+                className="w-full "
+              />
             </Form.Item>
           </div>
         </Form>

@@ -131,6 +131,7 @@ export function DataTableInventory({}: Props) {
         fetchDataResponse={getInventories}
         rowSelection={rowSelection}
         textPlaceholder="Tìm kiếm theo tiêu đề"
+        isShowFilterDate
       />
       <CreateUpdateInventoryForm
         open={isOpenDialogForm}

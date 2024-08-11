@@ -181,7 +181,7 @@ export function DataTableOrder({}: Props) {
               icon={<MdOutlineRemoveRedEye />}
             ></Button>
           </Tooltip>
-          {/* <Popconfirm
+          <Popconfirm
             title="Xoá Đơn hàng "
             description="Bạn chắc chắn muốn xoá Đơn hàng này?"
             icon={<QuestionCircleOutlined />}
@@ -195,7 +195,7 @@ export function DataTableOrder({}: Props) {
             okText="Xác nhận"
           >
             <Button danger icon={<RiDeleteBin6Line />} className="" />
-          </Popconfirm> */}
+          </Popconfirm>
         </Space>
       ),
     },
@@ -227,11 +227,14 @@ export function DataTableOrder({}: Props) {
         fetchDataResponse={getOrdersByAdmin}
         rowSelection={rowSelection}
         textPlaceholder="Tìm kiếm (tên người mua,sdt, mã sp)..."
+        isShowFilterDate
+        isShowTagOptions
+        tagOptions={PAYMENT_METHOD_ORDER}
       />
       <CreateUpdateOrderForm
         open={isOpenDialogForm}
         onCancel={() => setIsOpenDialogForm(false)}
-        updateValue={dataSelected}
+        // updateValue={dataSelected}
         onRefetchingTable={handleReload}
       />
 

@@ -74,6 +74,5 @@ const MenuNav: MenuItem[] = [
   getItem(<Link href={`${pathAdmin}/contacts`}>Liên hệ hỗ trợ</Link>, '6', <MdOutlineContactMail />),
   getItem(<Link href={`${pathAdmin}/coupons`}>Danh sách khuyến mãi</Link>, '7', <MdOutlineDiscount />),
   getItem(<Link href={`${pathAdmin}/blogs`}>Quản lý danh mục & bài viết</Link>, '8', <MdContentPaste />),
-
-  getItem('Thống kê', '9', <AreaChartOutlined />, [getItem('Option 7', '8.1')]),
+  getItem(<Link href={`${pathAdmin}/overviews`}>Thống kê</Link>, '9', <AreaChartOutlined />),
 ]
