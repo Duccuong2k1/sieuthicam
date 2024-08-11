@@ -1,10 +1,11 @@
 'use client'
 
-import { Select, Table } from 'antd'
+import { Table } from 'antd'
 import React, { useImperativeHandle, forwardRef, useCallback, useState, useId, useMemo } from 'react'
 import { TableFilterHeader } from './TableFilterHeader'
 import { usePagination } from '@/libs/hooks/usePagination'
-import { PAYMENT_METHOD_ORDER } from '@/types/order'
+import queryString from 'query-string'
+import dayjs from 'dayjs'
 
 interface AnyObject {
   [key: string]: any
@@ -16,6 +17,9 @@ interface DataTableContextProps<T extends AnyObject> {
   rowSelection?: any
   isFilter?: boolean
   textPlaceholder?: string
+  isShowFilterDate?: boolean
+  isShowTagOptions?: boolean
+  tagOptions?: any[]
 }
 
 export interface DataTableContextRef {
@@ -24,7 +28,16 @@ export interface DataTableContextRef {
 }
 
 const DataTableContext = <T extends AnyObject>(
-  { columns, fetchDataResponse, rowSelection, isFilter = true, textPlaceholder }: DataTableContextProps<T>,
+  {
+    columns,
+    fetchDataResponse,
+    rowSelection,
+    isFilter = true,
+    textPlaceholder,
+    isShowFilterDate,
+    isShowTagOptions,
+    tagOptions,
+  }: DataTableContextProps<T>,
   ref: React.Ref<DataTableContextRef>,
 ) => {
   const { data, total, isLoading, fetchData, setParams, params } = usePagination<T>(fetchDataResponse, {
@@ -33,13 +46,33 @@ const DataTableContext = <T extends AnyObject>(
     pageSize: 10,
   })
   const id = useId()
-  const handleSearch = useCallback((value: string) => {
-    console.log('Search query:', value)
-    setParams({
-      ...params,
-      search: value,
-    })
-  }, [])
+  const onSearch = useCallback(
+    (value: any) => {
+      const searchParams: { [key: string]: string } = {}
+      if (value?.keyword) {
+        searchParams.keyword = value.keyword
+      }
+      if (value?.typeSelected) {
+        searchParams.typeSelected = value.typeSelected
+      }
+      if (Array.isArray(value?.dateRanges) && value.dateRanges.length === 2) {
+        const [startDate, endDate] = value.dateRanges
+        if (startDate) {
+          searchParams.startDate = dayjs(startDate).startOf('day').toISOString() // Convert dayjs to ISO string
+        }
+        if (endDate) {
+          searchParams.endDate = dayjs(endDate).endOf('day').toISOString() // Convert dayjs to ISO string
+        }
+      }
+      // Update params with new search parameters
+      setParams({
+        ...params,
+        page: 1,
+        search: queryString.stringify(searchParams),
+      })
+    },
+    [params, setParams],
+  )
 
   const reloadTable = useCallback(() => {
     fetchData(params)
@@ -52,7 +85,15 @@ const DataTableContext = <T extends AnyObject>(
 
   return (
     <>
-      {isFilter && <TableFilterHeader onSearch={handleSearch} placeholder={textPlaceholder} />}
+      {isFilter && (
+        <TableFilterHeader
+          onSearch={onSearch}
+          placeholder={textPlaceholder}
+          isShowFilterDate={isShowFilterDate}
+          isShowTagOptions={isShowTagOptions}
+          tagOptions={tagOptions}
+        />
+      )}
 
       <Table
         key={id}
@@ -68,6 +109,7 @@ const DataTableContext = <T extends AnyObject>(
         }}
         onChange={(pagination) =>
           setParams({
+            ...params,
             page: pagination.current || 1,
             pageSize: pagination.pageSize || 10,
           })

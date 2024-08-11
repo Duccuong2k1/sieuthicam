@@ -4,7 +4,7 @@ import { formatDate, parseNumber } from '@/libs/helpers/parser'
 import { IOrder, IOrderProduct, PAYMENT_METHOD_ORDER, STATUS_ORDER } from '@/types/order'
 import { IProduct } from '@/types/product'
 import { Image, Modal, Table, TableColumnsType, Tag } from 'antd'
-import { useMemo } from 'react'
+import { useId, useMemo } from 'react'
 
 interface CollectionCreateFormProps {
   open: boolean
@@ -77,6 +77,7 @@ export function ShowDetailOrderDialog({ open, detailItem, onCancel }: Collection
 }
 
 function ProductListOrder({ productList }: { productList: IOrderProduct | any }) {
+  const id = useId()
   const columns: TableColumnsType<IOrderProduct> = [
     {
       title: 'Tên sản phẩm',
@@ -114,5 +115,5 @@ function ProductListOrder({ productList }: { productList: IOrderProduct | any })
       ),
     },
   ]
-  return <Table columns={columns} dataSource={productList} pagination={false} className="border" />
+  return <Table columns={columns} rowKey={id} dataSource={productList} pagination={false} className="border" />
 }
