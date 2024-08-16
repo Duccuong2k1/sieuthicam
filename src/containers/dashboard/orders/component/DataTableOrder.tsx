@@ -19,6 +19,7 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md'
 import { ShowDetailOrderDialog } from './ShowDetailOrderDialog'
 import { ConfirmDeleteOrder } from './ConfirmDeleteOrder'
 import { useOrder } from '@/libs/providers/order-provider'
+import LabelPaid from '@/components/shared/common/LabelPaid'
 
 type Props = {}
 
@@ -105,7 +106,7 @@ export function DataTableOrder({}: Props) {
       dataIndex: 'buyer',
       key: 'buyer',
 
-      render: (_, { buyerName, buyerPhone, paymentMethod }) => {
+      render: (_, { buyerName, buyerPhone, paymentMethod, buyerStatusPaid }) => {
         return (
           <div className="flex flex-col gap-y-1">
             <span>
@@ -115,6 +116,7 @@ export function DataTableOrder({}: Props) {
               <Tag color={paymentMethod === 'debit' ? 'red' : 'cyan'}>
                 {PAYMENT_METHOD_ORDER?.find((item) => item.value === paymentMethod)?.label}
               </Tag>
+              {paymentMethod === 'debit' && <LabelPaid value={buyerStatusPaid} />}
             </span>
           </div>
         )

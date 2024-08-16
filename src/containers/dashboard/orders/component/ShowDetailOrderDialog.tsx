@@ -97,9 +97,13 @@ function ProductListOrder({ productList }: { productList: IOrderProduct | any })
       title: 'Giá sản phẩm',
       dataIndex: 'price',
       key: 'price',
-      render: (_, { productId }) => (
+      render: (_, { productId, salePrice, unit }) => (
         <>
-          <div className="">{parseNumber(productId?.salePrice, 'VND')}</div>
+          {unit !== 'bag' ? (
+            <div className="">{parseNumber(salePrice, 'VND')}</div>
+          ) : (
+            <div className="">{parseNumber(productId?.salePrice, 'VND')}</div>
+          )}
         </>
       ),
     },
