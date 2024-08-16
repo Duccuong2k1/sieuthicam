@@ -1,4 +1,5 @@
 'use client'
+import LabelPaid from '@/components/shared/common/LabelPaid'
 import { parseNumber } from '@/libs/helpers/parser'
 import { IOrder, IOrderProduct, PAYMENT_METHOD_ORDER } from '@/types/order'
 import { Table, TableColumnsType, Tag } from 'antd'
@@ -30,11 +31,14 @@ export default function DataTableSuccessOrder({ productList }: Props) {
       title: 'Tên - SĐT',
       dataIndex: 'buyerName',
       key: 'buyerName',
-      render: (_, { buyerName, buyerPhone }) => (
+      render: (_, { buyerName, buyerPhone, paymentMethod }) => (
         <>
           <div className="">
             {buyerName} - {buyerPhone}
           </div>
+          <Tag className="" color="cyan">
+            {PAYMENT_METHOD_ORDER?.find((item) => item.value === paymentMethod)?.label}
+          </Tag>
         </>
       ),
     },
@@ -52,11 +56,9 @@ export default function DataTableSuccessOrder({ productList }: Props) {
       title: 'Phương thức',
       dataIndex: 'paymentMethod',
       key: 'paymentMethod',
-      render: (paymentMethod) => (
+      render: (_, { buyerStatusPaid }) => (
         <>
-          <Tag className="" color="cyan">
-            {PAYMENT_METHOD_ORDER?.find((item) => item.value === paymentMethod)?.label}
-          </Tag>
+          <LabelPaid value={buyerStatusPaid} />
         </>
       ),
     },

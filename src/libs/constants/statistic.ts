@@ -4,6 +4,10 @@ export const FILTER_OPTIONS = [
         label: "Hôm nay"
     },
     {
+        value: "lastDay",
+        label: "Hôm qua"
+    },
+    {
         value: "thisMonth",
         label: "Tháng này"
     },

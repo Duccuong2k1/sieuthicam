@@ -5,6 +5,7 @@ import { Button, Space, Table, TableColumnsType, Tag, Tooltip } from 'antd'
 import React, { useId, useState } from 'react'
 import { ShowDetailOrderDialog } from '../../orders/component/ShowDetailOrderDialog'
 import { MdOutlineRemoveRedEye } from 'react-icons/md'
+import LabelPaid from '@/components/shared/common/LabelPaid'
 
 type Props = {
   productList: IOrder[]
@@ -31,11 +32,14 @@ export default function DataTableDebitOrder({ productList }: Props) {
       title: 'Tên - SĐT',
       dataIndex: 'buyerName',
       key: 'buyerName',
-      render: (_, { buyerName, buyerPhone }) => (
+      render: (_, { buyerName, buyerPhone, paymentMethod }) => (
         <>
           <div className="">
             {buyerName} - {buyerPhone}
           </div>
+          <Tag color="red" className="">
+            {PAYMENT_METHOD_ORDER?.find((item) => item.value === paymentMethod)?.label}
+          </Tag>
         </>
       ),
     },
@@ -53,12 +57,8 @@ export default function DataTableDebitOrder({ productList }: Props) {
       title: 'Phương thức',
       dataIndex: 'paymentMethod',
       key: 'paymentMethod',
-      render: (paymentMethod) => (
-        <>
-          <Tag color="red" className="">
-            {PAYMENT_METHOD_ORDER?.find((item) => item.value === paymentMethod)?.label}
-          </Tag>
-        </>
+      render: (_, { paymentMethod, buyerStatusPaid }) => (
+        <>{paymentMethod === 'debit' && <LabelPaid value={buyerStatusPaid} />}</>
       ),
     },
     // {

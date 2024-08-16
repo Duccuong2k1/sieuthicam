@@ -12,6 +12,7 @@ export interface IOrder extends BaseProps {
     buyerPhone: string,
     paymentMethod: string,
     coupon: string,
+    buyerStatusPaid: string,
 }
 export interface IOrderProduct {
     quantity: number,
