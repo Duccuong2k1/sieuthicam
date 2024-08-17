@@ -67,7 +67,7 @@ export default function OverViewContent({}: Props) {
         <Card bordered={false}>
           <Statistic
             title="Tổng tiền thành công"
-            value={parseNumber(result?.infoResult?.totalSuccessfulCostAndBanking)}
+            value={parseNumber(result?.infoResult?.totalPaidAmount)}
             precision={2}
             valueStyle={{ color: '#3f8600' }}
             //   prefix={<ArrowDownOutlined />}
@@ -77,7 +77,7 @@ export default function OverViewContent({}: Props) {
         <Card bordered={false}>
           <Statistic
             title="Tiền còn ghi nợ"
-            value={parseNumber(result?.infoResult?.totalDebitAmount)}
+            value={parseNumber(result?.infoResult?.totalUnpaidAmount)}
             precision={2}
             valueStyle={{ color: '#cf1322' }}
             //   prefix={<ArrowDownOutlined />}

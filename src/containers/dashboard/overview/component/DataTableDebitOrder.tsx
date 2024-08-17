@@ -54,7 +54,7 @@ export default function DataTableDebitOrder({ productList }: Props) {
       ),
     },
     {
-      title: 'Phương thức',
+      title: 'Trạng thái',
       dataIndex: 'paymentMethod',
       key: 'paymentMethod',
       render: (_, { paymentMethod, buyerStatusPaid }) => (

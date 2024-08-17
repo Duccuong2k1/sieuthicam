@@ -80,14 +80,14 @@ function ProductListOrder({ productList }: { productList: IOrderProduct | any })
   const id = useId()
   const columns: TableColumnsType<IOrderProduct> = [
     {
-      title: 'Tên sản phẩm',
+      title: 'Tên sản phẩm - Mã SP',
       dataIndex: 'productName',
       key: 'productName',
       render: (_, { productId }) => (
         <>
           <div className="flex flex-row items-center gap-2">
             <Image src={productId?.thumbnail} alt="Image product order" width={50} height={50} />
-            <span>{productId?.title}</span>
+            <span>{productId?.title}</span> - <span>{productId?.code}</span>
           </div>
         </>
       ),

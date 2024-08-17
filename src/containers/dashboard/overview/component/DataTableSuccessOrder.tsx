@@ -36,7 +36,7 @@ export default function DataTableSuccessOrder({ productList }: Props) {
           <div className="">
             {buyerName} - {buyerPhone}
           </div>
-          <Tag className="" color="cyan">
+          <Tag className="" color={paymentMethod === 'debit' ? 'red' : 'cyan'}>
             {PAYMENT_METHOD_ORDER?.find((item) => item.value === paymentMethod)?.label}
           </Tag>
         </>
@@ -53,7 +53,7 @@ export default function DataTableSuccessOrder({ productList }: Props) {
       ),
     },
     {
-      title: 'Phương thức',
+      title: 'Trạng thái',
       dataIndex: 'paymentMethod',
       key: 'paymentMethod',
       render: (_, { buyerStatusPaid }) => (

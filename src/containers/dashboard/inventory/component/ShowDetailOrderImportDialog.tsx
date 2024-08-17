@@ -58,14 +58,14 @@ export function ShowDetailOrderImportDialog({ open, detailItem, onCancel }: Coll
 function ProductListOrder({ productList }: { productList: IItemsImport | any }) {
   const columns: TableColumnsType<IItemsImport> = [
     {
-      title: 'Tên sản phẩm',
+      title: 'Tên sản phẩm - Mã SP',
       dataIndex: 'product',
       key: 'product',
       render: (_, { productId }) => (
         <>
           <div className="flex flex-row items-center gap-2">
             <Image src={productId?.thumbnail} alt="Image product order" width={50} height={50} />
-            <span>{productId?.title}</span>
+            <span>{productId?.title}</span> - <span>{productId?.code}</span>
           </div>
         </>
       ),
