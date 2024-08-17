@@ -93,7 +93,7 @@ export function DataTableProduct({}: Props) {
               <div className={cn(quantity <= 3 ? ' text-red-500 font-medium' : 'text-green-500')}>
                 {parseNumber(quantity)}
               </div>
-              {quantity <= 3 && <Tag color="red">Hết hàng</Tag>}
+              {quantity <= 3 && <Tag color="red">{quantity === 0 ? 'Hết hàng' : 'Lượng hàng thấp'} </Tag>}
             </div>
             {quantity <= 3 && <span className="text-xs text-gray-600">Vui lòng nhập hàng</span>}
           </div>
