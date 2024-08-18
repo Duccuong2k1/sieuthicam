@@ -7,6 +7,9 @@ const path = "/statistic";
 const getStatisticList = async (params: any): Promise<CustomAxiosResponse<any[]>> => {
     const queryParams = {
         ...(params.filter && { filter: params.filter }), // Chỉ thêm `search` nếu nó tồn tại
+        ...(params.startDate && { startDate: params.startDate }), // Chỉ thêm `search` nếu nó tồn tại
+        ...(params.endDate && { endDate: params.endDate }), // Chỉ thêm `search` nếu nó tồn tại
+
     };
 
     const q = queryString.stringify(queryParams);
