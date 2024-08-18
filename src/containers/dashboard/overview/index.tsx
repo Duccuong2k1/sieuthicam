@@ -7,10 +7,13 @@ import FilterStatistic from './component/FilterStatistic'
 import { FILTER_OPTIONS } from '@/libs/constants/statistic'
 import DataTableSuccessOrder from './component/DataTableSuccessOrder'
 import DataTableDebitOrder from './component/DataTableDebitOrder'
+import dayjs from 'dayjs'
+import { useToast } from '@/libs/providers/toast-provider'
 
 type Props = {}
 
 export default function OverViewContent({}: Props) {
+  const toast = useToast()
   const [result, setResult] = useState<any>(null)
   const [filter, setFilter] = useState<{ filter: string; startDate?: string; endDate?: string }>({
     filter: 'today',
@@ -19,18 +22,38 @@ export default function OverViewContent({}: Props) {
   })
   useEffect(() => {
     ;(async () => {
-      const data = await getStatisticList({ filter: filter?.filter || 'today' })
-      console.log('data nhan ve', data)
-      setResult(data?.data)
+      try {
+        const data = await getStatisticList({
+          filter: filter?.filter || 'today',
+          startDate: filter?.startDate || '',
+          endDate: filter?.endDate || '',
+        })
+        setResult(data?.data)
+      } catch (error) {
+        console.log('error filter statistic', error)
+        toast.error('Vui lòng chọn ngày thống kê')
+      }
     })()
   }, [filter])
 
   console.log('filter', filter)
   const onSearch = (value: any) => {
-    console.log('filter nha', value)
+    const searchParams: { [key: string]: string } = {}
+
+    if (Array.isArray(value?.dateRanges) && value.dateRanges.length === 2) {
+      const [startDate, endDate] = value.dateRanges
+      if (startDate) {
+        searchParams.startDate = dayjs(startDate).startOf('day').toISOString() // Convert dayjs to ISO string
+      }
+      if (endDate) {
+        searchParams.endDate = dayjs(endDate).endOf('day').toISOString() // Convert dayjs to ISO string
+      }
+    }
     setFilter({
-      ...filter,
+      // ...filter,
       filter: value?.filter,
+      startDate: searchParams?.startDate,
+      endDate: searchParams?.endDate,
     })
   }
 
