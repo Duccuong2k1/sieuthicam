@@ -18,8 +18,8 @@ export default function DataTableDebitOrder({ productList }: Props) {
   const [pageSize, setPageSize] = useState(10)
 
   const handleTableChange = (pagination: any) => {
-    setCurrentPage(pagination.current || 1)
-    setPageSize(pagination.pageSize || 10)
+    setCurrentPage(pagination.current)
+    setPageSize(pagination.pageSize)
   }
 
   const columns: TableColumnsType<IOrder> = [
