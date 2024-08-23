@@ -1,4 +1,5 @@
 import { TitleContentRow } from '@/components/shared/common/TitleContentRow'
+import UnitRow from '@/components/shared/common/UnitRow'
 import { formatDate, parseNumber } from '@/libs/helpers/parser'
 import { IInventory, IItemsImport } from '@/types/inventory'
 
@@ -95,9 +96,11 @@ function ProductListOrder({ productList }: { productList: IItemsImport | any }) 
       title: 'Số lượng nhập',
       dataIndex: 'quantity',
       key: 'quantity',
-      render: (_, { quantity }) => (
+      render: (_, { quantity, productId }) => (
         <>
-          <div className="">{parseNumber(quantity)}</div>
+          <div className="">
+            {parseNumber(quantity)} (<UnitRow unit={productId?.unit} />)
+          </div>
         </>
       ),
     },
