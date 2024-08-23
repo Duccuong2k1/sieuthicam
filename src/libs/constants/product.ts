@@ -15,5 +15,8 @@ export const UNIT_OPTIONS = [
         value: "box",
         label: "Hộp"
     },
-
+    {
+        value: "animal",
+        label: "Con"
+    },
 ]
