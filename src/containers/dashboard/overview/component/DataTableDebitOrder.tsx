@@ -1,10 +1,9 @@
 'use client'
 import { parseNumber } from '@/libs/helpers/parser'
 import { IOrder, PAYMENT_METHOD_ORDER } from '@/types/order'
-import { Button, Space, Table, TableColumnsType, Tag, Tooltip } from 'antd'
+import { Table, TableColumnsType, Tag } from 'antd'
 import React, { useId, useState } from 'react'
-import { ShowDetailOrderDialog } from '../../orders/component/ShowDetailOrderDialog'
-import { MdOutlineRemoveRedEye } from 'react-icons/md'
+
 import LabelPaid from '@/components/shared/common/LabelPaid'
 
 type Props = {
@@ -23,11 +22,11 @@ export default function DataTableDebitOrder({ productList }: Props) {
   }
 
   const columns: TableColumnsType<IOrder> = [
-    {
-      title: 'Mã đơn ',
-      dataIndex: 'code',
-      key: 'code',
-    },
+    // {
+    //   title: 'Mã đơn ',
+    //   dataIndex: 'code',
+    //   key: 'code',
+    // },
     {
       title: 'Tên - SĐT',
       dataIndex: 'buyerName',
@@ -50,6 +49,16 @@ export default function DataTableDebitOrder({ productList }: Props) {
       render: (totalCost) => (
         <>
           <div className="text-red-500 font-semibold">{parseNumber(totalCost, 'VND')}</div>
+        </>
+      ),
+    },
+    {
+      title: 'Đã trả',
+      dataIndex: 'totalPaidAmount',
+      key: 'totalPaidAmount',
+      render: (totalPaidAmount) => (
+        <>
+          <div className="text-green-500 font-semibold">{parseNumber(totalPaidAmount, 'VND')}</div>
         </>
       ),
     },
